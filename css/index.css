@@ -53,8 +53,6 @@ html, body {
     font-size: 18px;
     padding: 10px;
     border: 1px solid black; }
-  .output ul {
-    margin: 5px; }
   .output .expenseOutput {
     border-bottom: 1px solid black; }
     .output .expenseOutput em {
