@@ -11,16 +11,16 @@
 		<h1>Expense Tracker</h1>
 		<form id="expenseForm" novalidate>
 			<p>Name of expense:</p>
-			<input type="text" ng-model="expense.name">
+			<input type="text" ng-model="expense.name" required>
 			<p>Amount:</p>
-			<input type="text" ng-model="expense.amount">
+			<input type="text" ng-model="expense.amount" required>
 			<input type="submit" value="Submit!" ng-click="addExpense(expense)">
 		</form>
 		<form id="incomeForm" novalidate>
 			<p>Name of Income:</p>
-			<input type="text" ng-model="income.name">
+			<input type="text" ng-model="income.name" required>
 			<p>Amount:</p>
-			<input type="text" ng-model="income.amount">
+			<input type="text" ng-model="income.amount" required>
 			<input type="submit" value="Submit!" ng-click="addIncome(income)">
 		</form>
 	</div>
@@ -34,18 +34,18 @@
 		<div ng-class="{activeForm: expenseVisible}">
 			<form id="expenseForm" novalidate ng-show="expenseVisible">
 				<p>Name of expense:</p>
-				<input type="text" ng-model="expense.name">
+				<input type="text" ng-model="expense.name" required>
 				<p>Amount:</p>
-				<input type="text" ng-model="expense.amount">
+				<input type="text" ng-model="expense.amount" required>
 				<input type="submit" value="Submit!" ng-click="addExpense(expense)">
 			</form>
 		</div>
 		<div ng-class="{activeForm: incomeVisible}">
 			<form id="incomeForm" novalidate ng-show="incomeVisible">
 				<p>Name of Income:</p>
-				<input type="text" ng-model="income.name">
+				<input type="text" ng-model="income.name" required>
 				<p>Amount:</p>
-				<input type="text" ng-model="income.amount">
+				<input type="text" ng-model="income.amount" required>
 				<input type="submit" value="Submit!" ng-click="addIncome(income)">
 			</form>
 		</div>

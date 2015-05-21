@@ -73,10 +73,6 @@ app.factory('expenseService', function() {
 		}
 	];
 
-	var Tts = {
-		net: 0
-	};
-
 	var addExpense = function(newExpense) {
 		expenses.push(newExpense);
 	};
@@ -89,7 +85,7 @@ app.factory('expenseService', function() {
 		var total = 0;
 		for (var i = 0; i < expenses.length; i++) {
 			var obj = expenses[i];
-			total += parseInt(obj.amount);
+			total += parseFloat(obj.amount);
 		}
 		return total;
 	}
@@ -125,7 +121,7 @@ app.factory('incomeService', function() {
 		var total = 0;
 		for (var i = 0; i < income.length; i++) {
 			var obj = income[i];
-			total += parseInt(obj.amount);
+			total += parseFloat(obj.amount);
 		}
 		return total;
 	}
