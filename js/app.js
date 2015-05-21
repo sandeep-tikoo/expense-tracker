@@ -29,12 +29,12 @@ app.controller('HandleCtrl', ['$scope', '$rootScope', 'expenseService', 'incomeS
 	$scope.addExpense = function(expense) {
 		expenseService.addExpense(expense);
 		$scope.expense = {};
-		$rootScope.$broadcast('update-totals');
+		
 	};
 	$scope.addIncome = function(income) {
 		incomeService.addIncome(income);
 		$scope.income = {};
-		$rootScope.$broadcast('update-totals');
+		
 	};
 
 	$scope.showExpense = function() {
@@ -54,14 +54,25 @@ app.controller('OutputCtrl', ['$scope', 'expenseService', 'incomeService', funct
 	$scope.netIncome = incomeService.getNetAmount() - expenseService.getNetAmount();
 	$scope.grossIncome = incomeService.getNetAmount();
 
-	$scope.$on('update-totals', function(event, args) {
+  function updateTotals() {
 		$scope.totalExpenses = expenseService.getNetAmount();
 		$scope.netIncome = incomeService.getNetAmount() - expenseService.getNetAmount();
 		$scope.grossIncome = incomeService.getNetAmount();
+  }
+
+  var expenseHandler = expenseService.on('expense-added', updateTotals);
+  var incomeHandler = incomeService.on('income-added', updateTotals);
+	
+	$scope.$on('$destroy',function() {
+		expenseHandler();
+		incomeHandler();
 	});
+
 }]);
 
-app.factory('expenseService', function() {
+app.factory('expenseService', function($rootScope) {
+
+	var expenseScope = $rootScope.$new();
 	var expenses = [
 		{
 			'name': 'Food',
@@ -75,6 +86,7 @@ app.factory('expenseService', function() {
 
 	var addExpense = function(newExpense) {
 		expenses.push(newExpense);
+		expenseScope.$emit('expense-added',newExpense);
 	};
 
 	var getExpenses = function() {
@@ -93,11 +105,15 @@ app.factory('expenseService', function() {
 	return {
 		addExpense: addExpense,
 		getExpenses: getExpenses,
-		getNetAmount: getNetAmount
+		getNetAmount: getNetAmount,
+		on : function(evt,cb) {
+			return expenseScope.$on(evt, cb);
+		}
 	};
 });
 
-app.factory('incomeService', function() {
+app.factory('incomeService', function($rootScope) {
+	var incomeScope = $rootScope.$new();
 	var income = [
 		{
 			'name': 'Paycheque',
@@ -111,6 +127,7 @@ app.factory('incomeService', function() {
 
 	var addIncome = function(newIncome) {
 		income.push(newIncome);
+		incomeScope.$emit('income-added',newIncome);
 	};
 
 	var getIncome = function() {
@@ -129,6 +146,9 @@ app.factory('incomeService', function() {
 	return {
 		addIncome: addIncome,
 		getIncome: getIncome,
-		getNetAmount: getNetAmount
+		getNetAmount: getNetAmount,
+		on : function(evt, cb) {
+			return incomeScope.$on(evt, cb);
+		}
 	};
 });
