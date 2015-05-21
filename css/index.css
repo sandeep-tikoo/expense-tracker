@@ -53,6 +53,8 @@ html, body {
     font-size: 18px;
     padding: 10px;
     border: 1px solid black; }
+  .output ul {
+    list-style: none; }
   .output .expenseOutput {
     border-bottom: 1px solid black; }
     .output .expenseOutput em {
@@ -75,7 +77,8 @@ html, body {
 /* Larger than mobile */
 /* Larger than phablet */
 /* Larger than tablet */
-@media (min-width: 750px) {
+/* Larger than desktop */
+@media (min-width: 1000px) {
   .hide-on-mobile {
     display: block; }
 
@@ -83,8 +86,9 @@ html, body {
     display: none; }
 
   .output {
-    margin-left: 300px; } }
-/* Larger than desktop */
+    margin-left: 300px;
+    width: 25%;
+    margin: 0 auto; } }
 /* Larger than Desktop HD */
 
 /*# sourceMappingURL=index.css.map */

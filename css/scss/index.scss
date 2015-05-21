@@ -80,6 +80,7 @@ html, body {
 	}
 
 	ul {
+		list-style: none;
 	}
 
 	.expenseOutput {
@@ -119,6 +120,11 @@ html, body {
 
 /* Larger than tablet */
 @media (min-width: 750px) {
+	
+}
+
+/* Larger than desktop */
+@media (min-width: 1000px) {
 	.hide-on-mobile {
 		display: block;
 	}
@@ -129,11 +135,10 @@ html, body {
 
 	.output {
 		margin-left: 300px;
+		width: 25%;
+		margin: 0 auto;
 	}
 }
-
-/* Larger than desktop */
-@media (min-width: 1000px) {}
 
 /* Larger than Desktop HD */
 @media (min-width: 1200px) {}
