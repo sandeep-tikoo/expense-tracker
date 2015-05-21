@@ -29,11 +29,12 @@ app.controller('HandleCtrl', ['$scope', '$rootScope', 'expenseService', 'incomeS
 	$scope.addExpense = function(expense) {
 		expenseService.addExpense(expense);
 		$scope.expense = {};
-
+		$rootScope.$broadcast('update-totals');
 	};
 	$scope.addIncome = function(income) {
 		incomeService.addIncome(income);
 		$scope.income = {};
+		$rootScope.$broadcast('update-totals');
 	};
 
 	$scope.showExpense = function() {
@@ -88,9 +89,8 @@ app.factory('expenseService', function() {
 		var total = 0;
 		for (var i = 0; i < expenses.length; i++) {
 			var obj = expenses[i];
-			total += obj.amount;
+			total += parseInt(obj.amount);
 		}
-		
 		return total;
 	}
 
@@ -125,9 +125,8 @@ app.factory('incomeService', function() {
 		var total = 0;
 		for (var i = 0; i < income.length; i++) {
 			var obj = income[i];
-			total += obj.amount;
+			total += parseInt(obj.amount);
 		}
-		
 		return total;
 	}
 
