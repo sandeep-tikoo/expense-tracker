@@ -7,21 +7,18 @@ html, body {
 	height: 100%;
 }
 
-.expense {
-	border: 1px solid black;
-	width: auto;
-	font-size: 18px;
-	padding: 10px;
-	width: 300px;
-
-}
-
-.container {
+.valueInput {
 	position: fixed;
 	width: 300px;
 	height: 100%;
 	background: #2c3e50;
 	color: white;
+
+	h1 {
+		text-align: center;
+		color: white;
+		padding: 10px;
+	}
 
 	form {
 		padding: 10px;
@@ -41,7 +38,103 @@ html, body {
 	}
 }
 
-.output {
-	margin-left: 300px;
+.mobileValueInput {
+	width: 100%;
+	height: auto;
+	background: #2c3e50;
+
+	h1 {
+		text-align: center;
+		color: white;
+	}
+
+	.btns {
+		text-align: center;
+		padding-top: 10px;
+		button {
+			padding: 5px;
+		}
+	}
+
+	.activeForm {
+		margin: 0 auto;
+		padding: 5px;
+		border: 1px solid black;
+		background: white;
+		width: 80%;
+		margin-top: 10px;
+	}
 }
 
+.output {
+	margin-left: 0;
+
+	h2 {
+		text-align: center;
+	}
+
+	li {
+		font-size: 18px;
+		padding: 10px;
+		border: 1px solid black;
+	}
+
+	ul {
+		margin: 5px;
+	}
+
+	.expenseOutput {
+		border-bottom: 1px solid black;
+		em {
+			color: red;
+		}
+	}
+
+	.incomeOutput {
+		border-bottom: 1px solid black;
+		em {
+			color: green;
+		}
+	}
+}
+
+.pull-right {
+	float: right;
+}
+
+.hide-on-mobile {
+	display: none;
+}
+
+.hide-on-large {
+	display: block;
+}
+
+/* Mobile first queries */
+
+/* Larger than mobile */
+@media (min-width: 400px) {}
+
+/* Larger than phablet */
+@media (min-width: 550px) {}
+
+/* Larger than tablet */
+@media (min-width: 750px) {
+	.hide-on-mobile {
+		display: block;
+	}
+
+	.hide-on-large {
+		display: none;
+	}
+
+	.output {
+		margin-left: 300px;
+	}
+}
+
+/* Larger than desktop */
+@media (min-width: 1000px) {}
+
+/* Larger than Desktop HD */
+@media (min-width: 1200px) {}

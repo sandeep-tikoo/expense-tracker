@@ -13,18 +13,51 @@ app.controller('ExpensesCtrl', function($scope) {
 	}
 });
 
-app.controller('HandleCtrl', ['$scope', 'expenseService', 'incomeService', function($scope, expenseService, incomeService) {
+app.controller('HandleCtrl', ['$scope', '$rootScope', 'expenseService', 'incomeService', function($scope, $rootScope, expenseService, incomeService) {
+	$scope.expenseVisible = false;
+	$scope.incomeVisible = false;
+
+	$scope.expense = {
+		name: "",
+		amount: ""
+	};
+	$scope.income = {
+		name: "",
+		amount: ""
+	};
+
 	$scope.addExpense = function(expense) {
 		expenseService.addExpense(expense);
+		$scope.expense = {};
+
 	};
 	$scope.addIncome = function(income) {
 		incomeService.addIncome(income);
+		$scope.income = {};
 	};
+
+	$scope.showExpense = function() {
+		$scope.incomeVisible = false;
+		$scope.expenseVisible = true;
+	};
+	$scope.showIncome = function() {
+		$scope.expenseVisible = false;
+		$scope.incomeVisible = true;
+	}
 }]);
 
 app.controller('OutputCtrl', ['$scope', 'expenseService', 'incomeService', function($scope, expenseService, incomeService) {
 	$scope.expenses = expenseService.getExpenses();
 	$scope.income = incomeService.getIncome();
+	$scope.totalExpenses = expenseService.getNetAmount();
+	$scope.netIncome = incomeService.getNetAmount() - expenseService.getNetAmount();
+	$scope.grossIncome = incomeService.getNetAmount();
+
+	$scope.$on('update-totals', function(event, args) {
+		$scope.totalExpenses = expenseService.getNetAmount();
+		$scope.netIncome = incomeService.getNetAmount() - expenseService.getNetAmount();
+		$scope.grossIncome = incomeService.getNetAmount();
+	});
 }]);
 
 app.factory('expenseService', function() {
@@ -39,6 +72,10 @@ app.factory('expenseService', function() {
 		}
 	];
 
+	var Tts = {
+		net: 0
+	};
+
 	var addExpense = function(newExpense) {
 		expenses.push(newExpense);
 	};
@@ -47,21 +84,32 @@ app.factory('expenseService', function() {
 		return expenses;
 	};
 
+	var getNetAmount = function() {
+		var total = 0;
+		for (var i = 0; i < expenses.length; i++) {
+			var obj = expenses[i];
+			total += obj.amount;
+		}
+		
+		return total;
+	}
+
 	return {
 		addExpense: addExpense,
-		getExpenses: getExpenses
+		getExpenses: getExpenses,
+		getNetAmount: getNetAmount
 	};
 });
 
 app.factory('incomeService', function() {
 	var income = [
 		{
-			'name': 'Food',
-			'amount': 10.24
+			'name': 'Paycheque',
+			'amount': 300.00
 		},
 		{
-			'name': 'Gas',
-			'amount': 50.45
+			'name': 'Lottery',
+			'amount': 45.00
 		}
 	];
 
@@ -73,8 +121,19 @@ app.factory('incomeService', function() {
 		return income;
 	};
 
+	var getNetAmount = function() {
+		var total = 0;
+		for (var i = 0; i < income.length; i++) {
+			var obj = income[i];
+			total += obj.amount;
+		}
+		
+		return total;
+	}
+
 	return {
 		addIncome: addIncome,
-		getIncome: getIncome
+		getIncome: getIncome,
+		getNetAmount: getNetAmount
 	};
 });

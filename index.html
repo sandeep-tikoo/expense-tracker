@@ -2,11 +2,13 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width">
 	<title>Expenses Tracker</title>
 	<link rel="stylesheet" type="text/css" href="css/index.css">
 </head>
 <body ng-app="expenses">
-	<div class="container" ng-controller="HandleCtrl">
+	<div class="valueInput hide-on-mobile" ng-controller="HandleCtrl">
+		<h1>Expense Tracker</h1>
 		<form id="expenseForm" novalidate>
 			<p>Name of expense:</p>
 			<input type="text" ng-model="expense.name">
@@ -22,17 +24,54 @@
 			<input type="submit" value="Submit!" ng-click="addIncome(income)">
 		</form>
 	</div>
+
+	<div class="mobileValueInput hide-on-large" ng-controller="HandleCtrl">
+		<h1>Expense Tracker</h1>
+		<div class="btns">
+			<button ng-click="showExpense()">Add Expense</button>
+			<button ng-click="showIncome()">Add Income</button>
+		</div>
+		<div ng-class="{activeForm: expenseVisible}">
+			<form id="expenseForm" novalidate ng-show="expenseVisible">
+				<p>Name of expense:</p>
+				<input type="text" ng-model="expense.name">
+				<p>Amount:</p>
+				<input type="text" ng-model="expense.amount">
+				<input type="submit" value="Submit!" ng-click="addExpense(expense)">
+			</form>
+		</div>
+		<div ng-class="{activeForm: incomeVisible}">
+			<form id="incomeForm" novalidate ng-show="incomeVisible">
+				<p>Name of Income:</p>
+				<input type="text" ng-model="income.name">
+				<p>Amount:</p>
+				<input type="text" ng-model="income.amount">
+				<input type="submit" value="Submit!" ng-click="addIncome(income)">
+			</form>
+		</div>
+	</div>
+
 	<div class="output" ng-controller="OutputCtrl">
 		<ul class="expenseOutput">
+			<h2>Expenses</h2>
 			<li ng-repeat="expense in expenses" class="expense">
-				{{expense.name}}<br><strong>{{expense.amount | currency }}</strong>
+				{{expense.name}}<em class="pull-right">-{{expense.amount | currency }}</em>
 			</li>
 		</ul>
 		<ul class="incomeOutput">
+			<h2>Income</h2>
 			<li ng-repeat="income in income" class="expense">
-				{{income.name}}<br><strong>{{income.amount | currency }}</strong>
+				{{income.name}}<em class="pull-right">+{{income.amount | currency }}</em>
 			</li>
 		</ul>
+		<div class="totals">
+			<h2>Totals</h2>
+			<ul>
+				<li>Total Expenses: <em class="pull-right">{{totalExpenses | currency}}</em></li>
+				<li>Net Income: <em class="pull-right">{{netIncome | currency}}</em></li>
+				<li>Gross Income: <em class="pull-right">{{grossIncome | currency}}</em></li>
+			</ul>
+		</div>
 	</div>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>

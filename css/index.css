@@ -5,30 +5,88 @@
 html, body {
   height: 100%; }
 
-.expense {
-  border: 1px solid black;
-  width: auto;
-  font-size: 18px;
-  padding: 10px;
-  width: 300px; }
-
-.container {
+.valueInput {
   position: fixed;
   width: 300px;
   height: 100%;
   background: #2c3e50;
   color: white; }
-  .container form {
+  .valueInput h1 {
+    text-align: center;
+    color: white;
     padding: 10px; }
-  .container #expenseForm {
+  .valueInput form {
+    padding: 10px; }
+  .valueInput #expenseForm {
     background: #27ae60; }
-  .container #incomeForm {
+  .valueInput #incomeForm {
     background: #e67e22; }
-  .container p {
+  .valueInput p {
     padding: 10px 0;
     font-size: 18px; }
 
+.mobileValueInput {
+  width: 100%;
+  height: auto;
+  background: #2c3e50; }
+  .mobileValueInput h1 {
+    text-align: center;
+    color: white; }
+  .mobileValueInput .btns {
+    text-align: center;
+    padding-top: 10px; }
+    .mobileValueInput .btns button {
+      padding: 5px; }
+  .mobileValueInput .activeForm {
+    margin: 0 auto;
+    padding: 5px;
+    border: 1px solid black;
+    background: white;
+    width: 80%;
+    margin-top: 10px; }
+
 .output {
-  margin-left: 300px; }
+  margin-left: 0; }
+  .output h2 {
+    text-align: center; }
+  .output li {
+    font-size: 18px;
+    padding: 10px;
+    border: 1px solid black; }
+  .output ul {
+    margin: 5px; }
+  .output .expenseOutput {
+    border-bottom: 1px solid black; }
+    .output .expenseOutput em {
+      color: red; }
+  .output .incomeOutput {
+    border-bottom: 1px solid black; }
+    .output .incomeOutput em {
+      color: green; }
+
+.pull-right {
+  float: right; }
+
+.hide-on-mobile {
+  display: none; }
+
+.hide-on-large {
+  display: block; }
+
+/* Mobile first queries */
+/* Larger than mobile */
+/* Larger than phablet */
+/* Larger than tablet */
+@media (min-width: 750px) {
+  .hide-on-mobile {
+    display: block; }
+
+  .hide-on-large {
+    display: none; }
+
+  .output {
+    margin-left: 300px; } }
+/* Larger than desktop */
+/* Larger than Desktop HD */
 
 /*# sourceMappingURL=index.css.map */
