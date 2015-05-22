@@ -7,46 +7,50 @@
 	<link rel="stylesheet" type="text/css" href="css/index.css">
 </head>
 <body ng-app="expenses">
-	<div class="valueInput hide-on-mobile" ng-controller="HandleCtrl">
+	<div class="valueInput hide-on-mobile">
+		<div ng-controller="ExpenseCtrl as ctrl">
 		<h1>Expense Tracker</h1>
-		<form id="expenseForm" novalidate>
-			<p>Name of expense:</p>
-			<input type="text" ng-model="expense.name" required>
-			<p>Amount:</p>
-			<input type="text" ng-model="expense.amount" required>
-			<input type="submit" value="Submit!" ng-click="addExpense(expense)">
-		</form>
-		<form id="incomeForm" novalidate>
-			<p>Name of Income:</p>
-			<input type="text" ng-model="income.name" required>
-			<p>Amount:</p>
-			<input type="text" ng-model="income.amount" required>
-			<input type="submit" value="Submit!" ng-click="addIncome(income)">
-		</form>
-	</div>
-
-	<div class="mobileValueInput hide-on-large" ng-controller="HandleCtrl">
-		<h1>Expense Tracker</h1>
-		<div class="btns">
-			<button ng-click="showExpense()">Add Expense</button>
-			<button ng-click="showIncome()">Add Income</button>
-		</div>
-		<div ng-class="{activeForm: expenseVisible}">
-			<form id="expenseForm" novalidate ng-show="expenseVisible">
+			<form id="expenseForm" novalidate ng-submit="ctrl.addExpense(ctrl.expense)">
 				<p>Name of expense:</p>
-				<input type="text" ng-model="expense.name" required>
+				<input type="text" ng-model="ctrl.expense.name" required>
 				<p>Amount:</p>
-				<input type="text" ng-model="expense.amount" required>
-				<input type="submit" value="Submit!" ng-click="addExpense(expense)">
+				<input type="text" ng-model="ctrl.expense.amount" required>
+				<input type="submit" value="Submit!">
+			</form>
+	  </div>
+	  <div ng-controller="IncomeCtrl as ctrl">
+			<form id="incomeForm" novalidate ng-submit="ctrl.addIncome(ctrl.income)">
+				<p>Name of Income:</p>
+				<input type="text" ng-model="ctrl.income.name" required>
+				<p>Amount:</p>
+				<input type="text" ng-model="ctrl.income.amount" required>
+				<input type="submit" value="Submit!">
 			</form>
 		</div>
-		<div ng-class="{activeForm: incomeVisible}">
-			<form id="incomeForm" novalidate ng-show="incomeVisible">
-				<p>Name of Income:</p>
-				<input type="text" ng-model="income.name" required>
+	</div>
+
+	<div class="mobileValueInput hide-on-large" ng-controller="HandleCtrl as handle">
+		<h1>Expense Tracker</h1>
+		<div class="btns">
+			<button ng-click="handle.showExpense()">Add Expense</button>
+			<button ng-click="handle.showIncome()">Add Income</button>
+		</div>
+		<div ng-class="{activeForm: handle.expenseVisible}" ng-controller="ExpenseCtrl as ctrl">
+			<form id="expenseForm" novalidate ng-show="handle.expenseVisible" ng-submit="ctrl.addExpense(ctrl.expense)">
+				<p>Name of expense:</p>
+				<input type="text" ng-model="ctrl.expense.name" required>
 				<p>Amount:</p>
-				<input type="text" ng-model="income.amount" required>
-				<input type="submit" value="Submit!" ng-click="addIncome(income)">
+				<input type="text" ng-model="ctrl.expense.amount" required>
+				<input type="submit" value="Submit!" >
+			</form>
+		</div>
+		<div ng-class="{activeForm: handle.incomeVisible}" ng-controller="IncomeCtrl as ctrl">
+			<form id="incomeForm" novalidate ng-show="handle.incomeVisible" ng-submit="ctrl.addIncome(ctrl.income)">
+				<p>Name of Income:</p>
+				<input type="text" ng-model="ctrl.income.name" required>
+				<p>Amount:</p>
+				<input type="text" ng-model="ctrl.income.amount" required>
+				<input type="submit" value="Submit!">
 			</form>
 		</div>
 	</div>

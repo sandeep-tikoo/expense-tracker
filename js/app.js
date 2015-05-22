@@ -1,50 +1,50 @@
 var app = angular.module('expenses', []);
 
-app.controller('ExpensesCtrl', function($scope) {
-	$scope.dialogOpen = false;
-
-	$scope.addExpense = function() {
-		$('#base').append('<div class="expense">Expense:<input type="text">Amount:<input type="text"></div>');
-		$scope.dialogOpen = true;
-	};
-
-	$scope.addIncome = function() {
-		$('#base').append('<div class="expense">Income:<input type="text">Amount:<input type="text"></div>');
-	}
-});
-
-app.controller('HandleCtrl', ['$scope', '$rootScope', 'expenseService', 'incomeService', function($scope, $rootScope, expenseService, incomeService) {
-	$scope.expenseVisible = false;
-	$scope.incomeVisible = false;
-
-	$scope.expense = {
-		name: "",
-		amount: ""
-	};
-	$scope.income = {
+app.controller('ExpenseCtrl',['$scope','expenseService', function($scope, expenseService) {
+	var vm = this;
+	
+	vm.expense = {
 		name: "",
 		amount: ""
 	};
 
-	$scope.addExpense = function(expense) {
+	vm.addExpense = function(expense) {
 		expenseService.addExpense(expense);
-		$scope.expense = {};
-		
-	};
-	$scope.addIncome = function(income) {
-		incomeService.addIncome(income);
-		$scope.income = {};
-		
+		vm.expense = {};
 	};
 
-	$scope.showExpense = function() {
-		$scope.incomeVisible = false;
-		$scope.expenseVisible = true;
+}]);
+
+app.controller('IncomeCtrl',['$scope','incomeService', function($scope, incomeService) {
+	var vm = this;
+	
+	vm.income = {
+		name: "",
+		amount: ""
 	};
-	$scope.showIncome = function() {
-		$scope.expenseVisible = false;
-		$scope.incomeVisible = true;
-	}
+
+	vm.addIncome = function(income) {
+		incomeService.addIncome(income);
+		vm.income = {};
+	};
+
+}]);
+
+app.controller('HandleCtrl', [function() {
+	var vm = this;
+
+	vm.expenseVisible = false;
+	vm.incomeVisible = false;
+	
+	vm.showExpense = function() {
+		vm.incomeVisible = false;
+		vm.expenseVisible = true;
+	};
+
+	vm.showIncome = function() {
+		vm.expenseVisible = false;
+		vm.incomeVisible = true;
+	};
 }]);
 
 app.controller('OutputCtrl', ['$scope', 'expenseService', 'incomeService', function($scope, expenseService, incomeService) {
