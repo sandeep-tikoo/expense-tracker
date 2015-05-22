@@ -1,6 +1,6 @@
 var app = angular.module('expenses', []);
 
-app.controller('ExpenseCtrl',['$scope','expenseService', function($scope, expenseService) {
+app.controller('ExpenseCtrl',['expenseService', function(expenseService) {
 	var vm = this;
 	
 	vm.expense = {
@@ -15,7 +15,7 @@ app.controller('ExpenseCtrl',['$scope','expenseService', function($scope, expens
 
 }]);
 
-app.controller('IncomeCtrl',['$scope','incomeService', function($scope, incomeService) {
+app.controller('IncomeCtrl',['incomeService', function(incomeService) {
 	var vm = this;
 	
 	vm.income = {
@@ -47,26 +47,52 @@ app.controller('HandleCtrl', [function() {
 	};
 }]);
 
-app.controller('OutputCtrl', ['$scope', 'expenseService', 'incomeService', function($scope, expenseService, incomeService) {
+app.factory('summaryService', ['expenseService', 'incomeService', '$rootScope', function(expenseService, incomeService, $rootScope){
+
+  var summaryScope = $rootScope.$new();
+	function updateTotals() {
+		var totals = {};
+		totals.totalExpenses = expenseService.getNetAmount();
+		totals.netIncome = incomeService.getNetAmount() - expenseService.getNetAmount();
+		totals.grossIncome = incomeService.getNetAmount();
+		summaryScope.$emit('totals-updated', totals);
+		return totals;
+	}
+
+	expenseService.on('expense-added', updateTotals);
+	incomeService.on('income-added', updateTotals);
+	
+	return {
+		updateTotals: updateTotals,
+		on: function(evt, cb) {
+			return summaryScope.$on(evt, cb);
+		}
+	};
+
+}]);
+
+app.controller('OutputCtrl', ['$scope', 'expenseService', 'incomeService', 'summaryService', function($scope, expenseService, incomeService, summaryService) {
+	
 	$scope.expenses = expenseService.getExpenses();
 	$scope.income = incomeService.getIncome();
-	$scope.totalExpenses = expenseService.getNetAmount();
-	$scope.netIncome = incomeService.getNetAmount() - expenseService.getNetAmount();
-	$scope.grossIncome = incomeService.getNetAmount();
+	
 
-  function updateTotals() {
-		$scope.totalExpenses = expenseService.getNetAmount();
-		$scope.netIncome = incomeService.getNetAmount() - expenseService.getNetAmount();
-		$scope.grossIncome = incomeService.getNetAmount();
+
+  function updateTotals(evt, totals) {
+
+		$scope.totalExpenses = totals.totalExpenses;
+		$scope.netIncome = totals.netIncome;
+		$scope.grossIncome = totals.grossIncome;
   }
 
-  var expenseHandler = expenseService.on('expense-added', updateTotals);
-  var incomeHandler = incomeService.on('income-added', updateTotals);
-	
+ 
+	var summaryHandler = summaryService.on('totals-updated', updateTotals);
+
 	$scope.$on('$destroy',function() {
-		expenseHandler();
-		incomeHandler();
+		summaryHandler();
 	});
+
+	summaryService.updateTotals();
 
 }]);
 
