@@ -5,97 +5,26 @@
 
 html, body {
 	height: 100%;
+	background-color: #226666;
+	color: white;
+}
+
+.color-primary-0 { background: #226666 }	/* Main Primary color */
+.color-primary-1 { background: #669999 }
+.color-primary-2 { background: #407F7F }
+.color-primary-3 { background: #0D4D4D }
+.color-primary-4 { background: #003333 }
+
+header {
+	text-align: center;
+	color: white;
 }
 
 .valueInput {
-	position: fixed;
-	width: 300px;
-	height: 100%;
-	background: #2c3e50;
-	color: white;
-
-	h1 {
-		text-align: center;
-		color: white;
-		padding: 10px;
-	}
-
-	form {
-		padding: 10px;
-	}
-
-	#expenseForm {
-		background: #27ae60;
-	}
-
-	#incomeForm {
-		background: #e67e22;
-	}
-
-	p {
-		padding: 10px 0;
-		font-size: 18px;
-	}
+	text-align: center;
 }
 
-.mobileValueInput {
-	width: 100%;
-	height: auto;
-	background: #2c3e50;
-
-	h1 {
-		text-align: center;
-		color: white;
-	}
-
-	.btns {
-		text-align: center;
-		padding-top: 10px;
-		button {
-			padding: 5px;
-		}
-	}
-
-	.activeForm {
-		margin: 0 auto;
-		padding: 5px;
-		border: 1px solid black;
-		background: white;
-		width: 80%;
-		margin-top: 10px;
-	}
-}
-
-.output {
-	margin-left: 0;
-
-	h2 {
-		text-align: center;
-	}
-
-	li {
-		font-size: 18px;
-		padding: 10px;
-		border: 1px solid black;
-	}
-
-	ul {
-		list-style: none;
-	}
-
-	.expenseOutput {
-		border-bottom: 1px solid black;
-		em {
-			color: red;
-		}
-	}
-
-	.incomeOutput {
-		border-bottom: 1px solid black;
-		em {
-			color: green;
-		}
-	}
+#expenseForm {
 }
 
 .pull-right {
@@ -106,9 +35,51 @@ html, body {
 	display: none;
 }
 
-.hide-on-large {
-	display: block;
+input {
+	color: black;
 }
+
+.output {
+
+	ul {
+		list-style: none;
+		margin: 5px;
+
+		h2 {
+			color: white;
+		}
+
+		
+		li {
+			padding: 5px;
+			color: black;
+
+			&:nth-child(odd) {
+				@extend .color-primary-1;
+			}
+
+			&:nth-child(even) {
+				@extend .color-primary-2;
+			}
+
+			font-size: 18px;
+		}
+	}
+}
+
+.addition {
+	color: #00510A;
+}
+
+.deduction {
+	color: #880202;
+}
+
+.button-secondary {
+	color: white;
+    background: rgb(66, 184, 221); /* this is a light blue */
+}	
+
 
 /* Mobile first queries */
 
@@ -134,8 +105,7 @@ html, body {
 	}
 
 	.output {
-		margin-left: 300px;
-		width: 25%;
+		width: 35%;
 		margin: 0 auto;
 	}
 }

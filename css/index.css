@@ -3,66 +3,32 @@
   padding: 0; }
 
 html, body {
-  height: 100%; }
+  height: 100%;
+  background-color: #226666;
+  color: white; }
+
+.color-primary-0 {
+  background: #226666; }
+
+/* Main Primary color */
+.color-primary-1, .output ul li:nth-child(odd) {
+  background: #669999; }
+
+.color-primary-2, .output ul li:nth-child(even) {
+  background: #407F7F; }
+
+.color-primary-3 {
+  background: #0D4D4D; }
+
+.color-primary-4 {
+  background: #003333; }
+
+header {
+  text-align: center;
+  color: white; }
 
 .valueInput {
-  position: fixed;
-  width: 300px;
-  height: 100%;
-  background: #2c3e50;
-  color: white; }
-  .valueInput h1 {
-    text-align: center;
-    color: white;
-    padding: 10px; }
-  .valueInput form {
-    padding: 10px; }
-  .valueInput #expenseForm {
-    background: #27ae60; }
-  .valueInput #incomeForm {
-    background: #e67e22; }
-  .valueInput p {
-    padding: 10px 0;
-    font-size: 18px; }
-
-.mobileValueInput {
-  width: 100%;
-  height: auto;
-  background: #2c3e50; }
-  .mobileValueInput h1 {
-    text-align: center;
-    color: white; }
-  .mobileValueInput .btns {
-    text-align: center;
-    padding-top: 10px; }
-    .mobileValueInput .btns button {
-      padding: 5px; }
-  .mobileValueInput .activeForm {
-    margin: 0 auto;
-    padding: 5px;
-    border: 1px solid black;
-    background: white;
-    width: 80%;
-    margin-top: 10px; }
-
-.output {
-  margin-left: 0; }
-  .output h2 {
-    text-align: center; }
-  .output li {
-    font-size: 18px;
-    padding: 10px;
-    border: 1px solid black; }
-  .output ul {
-    list-style: none; }
-  .output .expenseOutput {
-    border-bottom: 1px solid black; }
-    .output .expenseOutput em {
-      color: red; }
-  .output .incomeOutput {
-    border-bottom: 1px solid black; }
-    .output .incomeOutput em {
-      color: green; }
+  text-align: center; }
 
 .pull-right {
   float: right; }
@@ -70,8 +36,29 @@ html, body {
 .hide-on-mobile {
   display: none; }
 
-.hide-on-large {
-  display: block; }
+input {
+  color: black; }
+
+.output ul {
+  list-style: none;
+  margin: 5px; }
+  .output ul h2 {
+    color: white; }
+  .output ul li {
+    padding: 5px;
+    color: black;
+    font-size: 18px; }
+
+.addition {
+  color: #00510A; }
+
+.deduction {
+  color: #880202; }
+
+.button-secondary {
+  color: white;
+  background: #42b8dd;
+  /* this is a light blue */ }
 
 /* Mobile first queries */
 /* Larger than mobile */
@@ -86,8 +73,7 @@ html, body {
     display: none; }
 
   .output {
-    margin-left: 300px;
-    width: 25%;
+    width: 35%;
     margin: 0 auto; } }
 /* Larger than Desktop HD */
 

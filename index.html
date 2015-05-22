@@ -4,53 +4,48 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width">
 	<title>Expenses Tracker</title>
+	<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
 	<link rel="stylesheet" type="text/css" href="css/index.css">
 </head>
 <body ng-app="expenses">
-	<div class="valueInput hide-on-mobile">
-		<div ng-controller="ExpenseCtrl as ctrl">
+	<header ng-controller="HandleCtrl as ctrl">
 		<h1>Expense Tracker</h1>
-			<form id="expenseForm" novalidate ng-submit="ctrl.addExpense(ctrl.expense)">
-				<p>Name of expense:</p>
-				<input type="text" ng-model="ctrl.expense.name" required>
-				<p>Amount:</p>
-				<input type="text" ng-model="ctrl.expense.amount" required>
-				<input type="submit" value="Submit!">
+	</header>
+	<div class="valueInput" ng-controller="HandleCtrl as handle">
+		<button class="pure-button pure-button-primary" ng-click="handle.showExpense()">Add Expense</button>
+		<button class="pure-button pure-button-primary" ng-click="handle.showIncome()">Add Income</button>
+		<div class="expenseForm" ng-controller="ExpenseCtrl as ctrl">
+			<form id="expenseForm" class="pure-form pure-form-aligned" novalidate ng-submit="ctrl.addExpense(ctrl.expense)" ng-show="handle.expenseVisible">
+				<fieldset>
+					<div class="pure-control-group">
+						<label for="expenseInput">Name of expense:</label>
+						<input type="text" name="expenseInput" ng-model="ctrl.expense.name" required>
+					</div>
+					<div class="pure-control-group">
+						<label for="expenseAmount">Amount:</label>
+						<input type="text" name="expenseAmount" ng-model="ctrl.expense.amount" required>
+					</div>
+					<div class="pure-control-group">
+						<button type="submit" class="pure-button button-secondary">Submit</button>
+					</div>
+				</fieldset>
 			</form>
 	  </div>
-	  <div ng-controller="IncomeCtrl as ctrl">
-			<form id="incomeForm" novalidate ng-submit="ctrl.addIncome(ctrl.income)">
-				<p>Name of Income:</p>
-				<input type="text" ng-model="ctrl.income.name" required>
-				<p>Amount:</p>
-				<input type="text" ng-model="ctrl.income.amount" required>
-				<input type="submit" value="Submit!">
-			</form>
-		</div>
-	</div>
-
-	<div class="mobileValueInput hide-on-large" ng-controller="HandleCtrl as handle">
-		<h1>Expense Tracker</h1>
-		<div class="btns">
-			<button ng-click="handle.showExpense()">Add Expense</button>
-			<button ng-click="handle.showIncome()">Add Income</button>
-		</div>
-		<div ng-class="{activeForm: handle.expenseVisible}" ng-controller="ExpenseCtrl as ctrl">
-			<form id="expenseForm" novalidate ng-show="handle.expenseVisible" ng-submit="ctrl.addExpense(ctrl.expense)">
-				<p>Name of expense:</p>
-				<input type="text" ng-model="ctrl.expense.name" required>
-				<p>Amount:</p>
-				<input type="text" ng-model="ctrl.expense.amount" required>
-				<input type="submit" value="Submit!" >
-			</form>
-		</div>
-		<div ng-class="{activeForm: handle.incomeVisible}" ng-controller="IncomeCtrl as ctrl">
-			<form id="incomeForm" novalidate ng-show="handle.incomeVisible" ng-submit="ctrl.addIncome(ctrl.income)">
-				<p>Name of Income:</p>
-				<input type="text" ng-model="ctrl.income.name" required>
-				<p>Amount:</p>
-				<input type="text" ng-model="ctrl.income.amount" required>
-				<input type="submit" value="Submit!">
+	  <div class="incomeForm" ng-controller="IncomeCtrl as ctrl">
+			<form id="incomeForm" class="pure-form pure-form-aligned" novalidate ng-submit="ctrl.addIncome(ctrl.income)" ng-show="handle.incomeVisible">
+				<fieldset>
+					<div class="pure-control-group">
+						<label for="incomeInput">Name of income:</label>
+						<input type="text" name="incomeInput" ng-model="ctrl.income.name" required>
+					</div>
+					<div class="pure-control-group">
+						<label for="incomeAmount">Amount:</label>
+						<input type="text" name="incomeAmount" ng-model="ctrl.income.amount" required>
+					</div>
+					<div class="pure-control-group">
+						<button type="submit" class="pure-button button-secondary">Submit</button>
+					</div>
+				</fieldset>
 			</form>
 		</div>
 	</div>
@@ -59,22 +54,21 @@
 		<ul class="expenseOutput">
 			<h2>Expenses</h2>
 			<li ng-repeat="expense in output.expenses" class="expense">
-				{{expense.name}}<em class="pull-right">-{{expense.amount | currency }}</em>
+				{{expense.name}}<em class="pull-right deduction">-{{expense.amount | currency }}</em>
 			</li>
 		</ul>
 		<ul class="incomeOutput">
 			<h2>Income</h2>
 			<li ng-repeat="income in output.income" class="expense">
-				{{income.name}}<em class="pull-right">+{{income.amount | currency }}</em>
+				{{income.name}}<em class="pull-right addition">+{{income.amount | currency }}</em>
 			</li>
 		</ul>
-		<div class="totals">
+		<ul class="totals">
 			<h2>Totals</h2>
-			<ul>
-				<li>Gross Income: <em class="pull-right">{{output.grossIncome | currency}}</em></li>
-				<li>Total Expenses: <em class="pull-right">{{output.totalExpenses | currency}}</em></li>
-				<li>Net Income: <em class="pull-right">{{output.netIncome | currency}}</em></li>
-			</ul>
+			<li>Gross Income: <em class="pull-right addition">{{output.grossIncome | currency}}</em></li>
+			<li>Total Expenses: <em class="pull-right deduction">{{output.totalExpenses | currency}}</em></li>
+			<li>Net Income: <em class="pull-right addition">{{output.netIncome | currency}}</em></li>
+		</ul>
 		</div>
 	</div>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
