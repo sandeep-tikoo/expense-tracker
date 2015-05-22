@@ -52,6 +52,8 @@ app.factory('summaryService', ['expenseService', 'incomeService', '$rootScope', 
   var summaryScope = $rootScope.$new();
 	function updateTotals() {
 		var totals = {};
+		totals.expenses = expenseService.getExpenses();
+		totals.income = incomeService.getIncome();
 		totals.totalExpenses = expenseService.getNetAmount();
 		totals.netIncome = incomeService.getNetAmount() - expenseService.getNetAmount();
 		totals.grossIncome = incomeService.getNetAmount();
@@ -71,24 +73,20 @@ app.factory('summaryService', ['expenseService', 'incomeService', '$rootScope', 
 
 }]);
 
-app.controller('OutputCtrl', ['$scope', 'expenseService', 'incomeService', 'summaryService', function($scope, expenseService, incomeService, summaryService) {
+app.controller('OutputCtrl', ['$scope', 'summaryService', function($scope,summaryService) {
 	var vm = this;
-	vm.expenses = expenseService.getExpenses();
-	vm.income = incomeService.getIncome();
-	
-
+	var summaryHandler = summaryService.on('totals-updated', updateTotals);
 
   function updateTotals(evt, totals) {
 
+  	vm.income = totals.income;
+  	vm.expenses = totals.expenses;
 		vm.totalExpenses = totals.totalExpenses;
 		vm.netIncome = totals.netIncome;
 		vm.grossIncome = totals.grossIncome;
-  }
+  }	
 
- 
-	var summaryHandler = summaryService.on('totals-updated', updateTotals);
-
-	$scope.$on('$destroy',function() {
+	$scope.$on('$destroy', function() {
 		summaryHandler();
 	});
 
