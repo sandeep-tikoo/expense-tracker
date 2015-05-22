@@ -55,25 +55,25 @@
 		</div>
 	</div>
 
-	<div class="output" ng-controller="OutputCtrl">
+	<div class="output" ng-controller="OutputCtrl as output">
 		<ul class="expenseOutput">
 			<h2>Expenses</h2>
-			<li ng-repeat="expense in expenses" class="expense">
+			<li ng-repeat="expense in output.expenses" class="expense">
 				{{expense.name}}<em class="pull-right">-{{expense.amount | currency }}</em>
 			</li>
 		</ul>
 		<ul class="incomeOutput">
 			<h2>Income</h2>
-			<li ng-repeat="income in income" class="expense">
+			<li ng-repeat="income in output.income" class="expense">
 				{{income.name}}<em class="pull-right">+{{income.amount | currency }}</em>
 			</li>
 		</ul>
 		<div class="totals">
 			<h2>Totals</h2>
 			<ul>
-				<li>Total Expenses: <em class="pull-right">{{totalExpenses | currency}}</em></li>
-				<li>Net Income: <em class="pull-right">{{netIncome | currency}}</em></li>
-				<li>Gross Income: <em class="pull-right">{{grossIncome | currency}}</em></li>
+				<li>Total Expenses: <em class="pull-right">{{output.totalExpenses | currency}}</em></li>
+				<li>Net Income: <em class="pull-right">{{output.netIncome | currency}}</em></li>
+				<li>Gross Income: <em class="pull-right">{{output.grossIncome | currency}}</em></li>
 			</ul>
 		</div>
 	</div>

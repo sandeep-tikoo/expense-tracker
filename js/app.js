@@ -72,17 +72,17 @@ app.factory('summaryService', ['expenseService', 'incomeService', '$rootScope', 
 }]);
 
 app.controller('OutputCtrl', ['$scope', 'expenseService', 'incomeService', 'summaryService', function($scope, expenseService, incomeService, summaryService) {
-	
-	$scope.expenses = expenseService.getExpenses();
-	$scope.income = incomeService.getIncome();
+	var vm = this;
+	vm.expenses = expenseService.getExpenses();
+	vm.income = incomeService.getIncome();
 	
 
 
   function updateTotals(evt, totals) {
 
-		$scope.totalExpenses = totals.totalExpenses;
-		$scope.netIncome = totals.netIncome;
-		$scope.grossIncome = totals.grossIncome;
+		vm.totalExpenses = totals.totalExpenses;
+		vm.netIncome = totals.netIncome;
+		vm.grossIncome = totals.grossIncome;
   }
 
  
