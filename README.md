@@ -5,7 +5,7 @@ A simple AngularJS web app that you can use to track your income and expenses.
 
 Live Demo: http://nehero.github.io/expense-tracker
 
-**currently a WIP**
+**CURRENTLY A WIP**
 
 I will be posting future ideas / plans / features for this project in the issues section of this repo. I encourage people interested in helping out to do the same!
 
