@@ -1,67 +1,102 @@
 var app = angular.module('expenses', []);
 
-app.controller('ExpensesCtrl', function($scope) {
-	$scope.dialogOpen = false;
-
-	$scope.addExpense = function() {
-		$('#base').append('<div class="expense">Expense:<input type="text">Amount:<input type="text"></div>');
-		$scope.dialogOpen = true;
-	};
-
-	$scope.addIncome = function() {
-		$('#base').append('<div class="expense">Income:<input type="text">Amount:<input type="text"></div>');
-	}
-});
-
-app.controller('HandleCtrl', ['$scope', '$rootScope', 'expenseService', 'incomeService', function($scope, $rootScope, expenseService, incomeService) {
-	$scope.expenseVisible = false;
-	$scope.incomeVisible = false;
-
-	$scope.expense = {
-		name: "",
-		amount: ""
-	};
-	$scope.income = {
+app.controller('ExpenseCtrl',['expenseService', function(expenseService) {
+	var vm = this;
+	
+	vm.expense = {
 		name: "",
 		amount: ""
 	};
 
-	$scope.addExpense = function(expense) {
+	vm.addExpense = function(expense) {
 		expenseService.addExpense(expense);
-		$scope.expense = {};
-		$rootScope.$broadcast('update-totals');
+		vm.expense = {};
 	};
-	$scope.addIncome = function(income) {
+
+}]);
+
+app.controller('IncomeCtrl',['incomeService', function(incomeService) {
+	var vm = this;
+	
+	vm.income = {
+		name: "",
+		amount: ""
+	};
+
+	vm.addIncome = function(income) {
 		incomeService.addIncome(income);
-		$scope.income = {};
-		$rootScope.$broadcast('update-totals');
+		vm.income = {};
 	};
 
-	$scope.showExpense = function() {
-		$scope.incomeVisible = false;
-		$scope.expenseVisible = true;
+}]);
+
+app.controller('HandleCtrl', [function() {
+	var vm = this;
+
+	vm.expenseVisible = false;
+	vm.incomeVisible = false;
+	
+	vm.showExpense = function() {
+		vm.incomeVisible = false;
+		vm.expenseVisible = true;
 	};
-	$scope.showIncome = function() {
-		$scope.expenseVisible = false;
-		$scope.incomeVisible = true;
+
+	vm.showIncome = function() {
+		vm.expenseVisible = false;
+		vm.incomeVisible = true;
+	};
+}]);
+
+app.factory('summaryService', ['expenseService', 'incomeService', '$rootScope', function(expenseService, incomeService, $rootScope){
+
+  var summaryScope = $rootScope.$new();
+	function updateTotals() {
+		var totals = {};
+		totals.expenses = expenseService.getExpenses();
+		totals.income = incomeService.getIncome();
+		totals.totalExpenses = expenseService.getNetAmount();
+		totals.netIncome = incomeService.getNetAmount() - expenseService.getNetAmount();
+		totals.grossIncome = incomeService.getNetAmount();
+		summaryScope.$emit('totals-updated', totals);
+		return totals;
 	}
+
+	expenseService.on('expense-added', updateTotals);
+	incomeService.on('income-added', updateTotals);
+	
+	return {
+		updateTotals: updateTotals,
+		on: function(evt, cb) {
+			return summaryScope.$on(evt, cb);
+		}
+	};
+
 }]);
 
-app.controller('OutputCtrl', ['$scope', 'expenseService', 'incomeService', function($scope, expenseService, incomeService) {
-	$scope.expenses = expenseService.getExpenses();
-	$scope.income = incomeService.getIncome();
-	$scope.totalExpenses = expenseService.getNetAmount();
-	$scope.netIncome = incomeService.getNetAmount() - expenseService.getNetAmount();
-	$scope.grossIncome = incomeService.getNetAmount();
+app.controller('OutputCtrl', ['$scope', 'summaryService', function($scope,summaryService) {
+	var vm = this;
+	var summaryHandler = summaryService.on('totals-updated', updateTotals);
 
-	$scope.$on('update-totals', function(event, args) {
-		$scope.totalExpenses = expenseService.getNetAmount();
-		$scope.netIncome = incomeService.getNetAmount() - expenseService.getNetAmount();
-		$scope.grossIncome = incomeService.getNetAmount();
+  function updateTotals(evt, totals) {
+
+  	vm.income = totals.income;
+  	vm.expenses = totals.expenses;
+		vm.totalExpenses = totals.totalExpenses;
+		vm.netIncome = totals.netIncome;
+		vm.grossIncome = totals.grossIncome;
+  }	
+
+	$scope.$on('$destroy', function() {
+		summaryHandler();
 	});
+
+	summaryService.updateTotals();
+
 }]);
 
-app.factory('expenseService', function() {
+app.factory('expenseService', function($rootScope) {
+
+	var expenseScope = $rootScope.$new();
 	var expenses = [
 		{
 			'name': 'Food',
@@ -75,6 +110,7 @@ app.factory('expenseService', function() {
 
 	var addExpense = function(newExpense) {
 		expenses.push(newExpense);
+		expenseScope.$emit('expense-added',newExpense);
 	};
 
 	var getExpenses = function() {
@@ -93,11 +129,15 @@ app.factory('expenseService', function() {
 	return {
 		addExpense: addExpense,
 		getExpenses: getExpenses,
-		getNetAmount: getNetAmount
+		getNetAmount: getNetAmount,
+		on : function(evt,cb) {
+			return expenseScope.$on(evt, cb);
+		}
 	};
 });
 
-app.factory('incomeService', function() {
+app.factory('incomeService', function($rootScope) {
+	var incomeScope = $rootScope.$new();
 	var income = [
 		{
 			'name': 'Paycheque',
@@ -111,6 +151,7 @@ app.factory('incomeService', function() {
 
 	var addIncome = function(newIncome) {
 		income.push(newIncome);
+		incomeScope.$emit('income-added',newIncome);
 	};
 
 	var getIncome = function() {
@@ -129,6 +170,9 @@ app.factory('incomeService', function() {
 	return {
 		addIncome: addIncome,
 		getIncome: getIncome,
-		getNetAmount: getNetAmount
+		getNetAmount: getNetAmount,
+		on : function(evt, cb) {
+			return incomeScope.$on(evt, cb);
+		}
 	};
 });
