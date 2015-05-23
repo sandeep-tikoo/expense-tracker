@@ -67,6 +67,14 @@ input {
 	}
 }
 
+.remove {
+	margin: 0 10px;
+	cursor: pointer;
+	&:hover {
+		color: #333;
+	}
+}
+
 .addition {
 	color: #00510A;
 }
