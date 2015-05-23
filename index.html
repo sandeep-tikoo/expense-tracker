@@ -53,6 +53,7 @@
 	<div class="output" ng-controller="OutputCtrl as output">
 		<ul class="expenseOutput">
 			<h2>Expenses</h2>
+			<li ng-show="output.expenses.length === 0">No expenses added yet!</li>
 			<li ng-repeat="expense in output.expenses" class="expense">
 				<span class="pull-right remove" ng-click="output.removeExpense(expense)">&times;</span>
 				{{expense.name}}<em class="pull-right deduction">-{{expense.amount | currency }}</em>
@@ -60,6 +61,7 @@
 		</ul>
 		<ul class="incomeOutput">
 			<h2>Income</h2>
+			<li ng-show="output.income.length === 0">No income added yet!</li>
 			<li ng-repeat="income in output.income" class="expense">
 				<span class="pull-right remove" ng-click="output.removeIncome(income)">&times;</span>
 				{{income.name}}<em class="pull-right addition">+{{income.amount | currency }}</em>
