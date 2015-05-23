@@ -1,51 +1,4 @@
-var app = angular.module('expenses', ['ngStorage']);
-
-app.controller('ExpenseCtrl',['expenseService', function(expenseService) {
-	var vm = this;
-	
-	vm.expense = {
-		name: "",
-		amount: ""
-	};
-
-	vm.addExpense = function(expense) {
-		expenseService.addExpense(expense);
-		vm.expense = {};
-	};
-
-}]);
-
-app.controller('IncomeCtrl',['incomeService', function(incomeService) {
-	var vm = this;
-	
-	vm.income = {
-		name: "",
-		amount: ""
-	};
-
-	vm.addIncome = function(income) {
-		incomeService.addIncome(income);
-		vm.income = {};
-	};
-
-}]);
-
-app.controller('HandleCtrl', [function() {
-	var vm = this;
-
-	vm.expenseVisible = false;
-	vm.incomeVisible = false;
-	
-	vm.showExpense = function() {
-		vm.incomeVisible = false;
-		vm.expenseVisible = true;
-	};
-
-	vm.showIncome = function() {
-		vm.expenseVisible = false;
-		vm.incomeVisible = true;
-	};
-}]);
+var app = angular.module('expenses', ['appControllers', 'ngStorage']);
 
 app.factory('summaryService', ['expenseService', 'incomeService', '$rootScope', function(expenseService, incomeService, $rootScope){
 
@@ -72,38 +25,6 @@ app.factory('summaryService', ['expenseService', 'incomeService', '$rootScope', 
 			return summaryScope.$on(evt, cb);
 		}
 	};
-
-}]);
-
-app.controller('OutputCtrl', 
-	['$scope', 'summaryService', 'expenseService', 'incomeService', 
-	function($scope,summaryService, expenseService, incomeService) {
-
-	var vm = this;
-	var summaryHandler = summaryService.on('totals-updated', updateTotals);
-
-  function updateTotals(evt, totals) {
-
-  	vm.income = totals.income;
-  	vm.expenses = totals.expenses;
-		vm.totalExpenses = totals.totalExpenses;
-		vm.netIncome = totals.netIncome;
-		vm.grossIncome = totals.grossIncome;
-  }	
-
-  vm.removeIncome = function(income) {
-  	incomeService.removeIncome(income);
-  }
-
-  vm.removeExpense = function(expense) {
-  	expenseService.removeExpense(expense);
-  }
-
-	$scope.$on('$destroy', function() {
-		summaryHandler();
-	});
-
-	summaryService.updateTotals();
 
 }]);
 
