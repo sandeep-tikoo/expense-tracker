@@ -18,7 +18,7 @@
 			<ul class="inline totals pull-right">
 				<li>Gross&nbsp;<em class="pull-right addition gross">{{output.grossIncome | currency}}</em></li>
 				<li>Expenses&nbsp;<em class="pull-right deduction">{{output.totalExpenses | currency}}</em></li>
-				<li>Net&nbsp;<em class="pull-right addition net">{{output.netIncome | currency}}</em></li>
+				<li>Net&nbsp;<em class="pull-right net" ng-class="{addition: output.netIncome >= 0, deduction: output.netIncome < 0}">{{output.netIncome | currency}}</em></li>
 			</ul>
 
 		</div>
