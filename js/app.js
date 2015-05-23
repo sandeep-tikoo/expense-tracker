@@ -1,4 +1,4 @@
-var app = angular.module('expenses', []);
+var app = angular.module('expenses', ['ngStorage']);
 
 app.controller('ExpenseCtrl',['expenseService', function(expenseService) {
 	var vm = this;
@@ -94,10 +94,12 @@ app.controller('OutputCtrl', ['$scope', 'summaryService', function($scope,summar
 
 }]);
 
-app.factory('expenseService', function($rootScope) {
+app.factory('expenseService', 
+	['$rootScope', '$localStorage',
+	function($rootScope, $localStorage) {
 
 	var expenseScope = $rootScope.$new();
-	var expenses = [
+	$localStorage.expenses = $localStorage.expenses || [
 		{
 			'name': 'Food',
 			'amount': 10.24
@@ -109,18 +111,18 @@ app.factory('expenseService', function($rootScope) {
 	];
 
 	var addExpense = function(newExpense) {
-		expenses.push(newExpense);
+		$localStorage.expenses.push(newExpense);
 		expenseScope.$emit('expense-added',newExpense);
 	};
 
 	var getExpenses = function() {
-		return expenses;
+		return $localStorage.expenses;
 	};
 
 	var getNetAmount = function() {
 		var total = 0;
-		for (var i = 0; i < expenses.length; i++) {
-			var obj = expenses[i];
+		for (var i = 0; i < $localStorage.expenses.length; i++) {
+			var obj = $localStorage.expenses[i];
 			total += parseFloat(obj.amount);
 		}
 		return total;
@@ -134,11 +136,14 @@ app.factory('expenseService', function($rootScope) {
 			return expenseScope.$on(evt, cb);
 		}
 	};
-});
+}]);
 
-app.factory('incomeService', function($rootScope) {
+app.factory('incomeService', 
+	['$rootScope', '$localStorage',
+	function($rootScope, $localStorage) {
+
 	var incomeScope = $rootScope.$new();
-	var income = [
+	$localStorage.income = $localStorage.income || [
 		{
 			'name': 'Paycheque',
 			'amount': 300.00
@@ -150,18 +155,18 @@ app.factory('incomeService', function($rootScope) {
 	];
 
 	var addIncome = function(newIncome) {
-		income.push(newIncome);
+		$localStorage.income.push(newIncome);
 		incomeScope.$emit('income-added',newIncome);
 	};
 
 	var getIncome = function() {
-		return income;
+		return $localStorage.income;
 	};
 
 	var getNetAmount = function() {
 		var total = 0;
-		for (var i = 0; i < income.length; i++) {
-			var obj = income[i];
+		for (var i = 0; i < $localStorage.income.length; i++) {
+			var obj = $localStorage.income[i];
 			total += parseFloat(obj.amount);
 		}
 		return total;
@@ -175,4 +180,4 @@ app.factory('incomeService', function($rootScope) {
 			return incomeScope.$on(evt, cb);
 		}
 	};
-});
+}]);
