@@ -49,6 +49,12 @@ input {
     color: black;
     font-size: 18px; }
 
+.remove {
+  margin: 0 10px;
+  cursor: pointer; }
+  .remove:hover {
+    color: #333; }
+
 .addition {
   color: #00510A; }
 

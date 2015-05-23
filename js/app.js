@@ -63,6 +63,8 @@ app.factory('summaryService', ['expenseService', 'incomeService', '$rootScope', 
 
 	expenseService.on('expense-added', updateTotals);
 	incomeService.on('income-added', updateTotals);
+	expenseService.on('expense-removed', updateTotals);
+	incomeService.on('income-removed', updateTotals);
 	
 	return {
 		updateTotals: updateTotals,
@@ -73,7 +75,10 @@ app.factory('summaryService', ['expenseService', 'incomeService', '$rootScope', 
 
 }]);
 
-app.controller('OutputCtrl', ['$scope', 'summaryService', function($scope,summaryService) {
+app.controller('OutputCtrl', 
+	['$scope', 'summaryService', 'expenseService', 'incomeService', 
+	function($scope,summaryService, expenseService, incomeService) {
+
 	var vm = this;
 	var summaryHandler = summaryService.on('totals-updated', updateTotals);
 
@@ -85,6 +90,14 @@ app.controller('OutputCtrl', ['$scope', 'summaryService', function($scope,summar
 		vm.netIncome = totals.netIncome;
 		vm.grossIncome = totals.grossIncome;
   }	
+
+  vm.removeIncome = function(income) {
+  	incomeService.removeIncome(income);
+  }
+
+  vm.removeExpense = function(expense) {
+  	expenseService.removeExpense(expense);
+  }
 
 	$scope.$on('$destroy', function() {
 		summaryHandler();
@@ -115,6 +128,12 @@ app.factory('expenseService',
 		expenseScope.$emit('expense-added',newExpense);
 	};
 
+	var removeExpense = function(expense) {
+		var i = $localStorage.expenses.indexOf(expense);
+		$localStorage.expenses.splice(i, 1); // remove the item
+		expenseScope.$emit('expense-removed',expense);
+	}
+
 	var getExpenses = function() {
 		return $localStorage.expenses;
 	};
@@ -130,6 +149,7 @@ app.factory('expenseService',
 
 	return {
 		addExpense: addExpense,
+		removeExpense: removeExpense,
 		getExpenses: getExpenses,
 		getNetAmount: getNetAmount,
 		on : function(evt,cb) {
@@ -159,6 +179,12 @@ app.factory('incomeService',
 		incomeScope.$emit('income-added',newIncome);
 	};
 
+	var removeIncome = function(income) {
+		var i = $localStorage.income.indexOf(income);
+		$localStorage.income.splice(i, 1); // remove the item
+		incomeScope.$emit('income-removed',income);
+	}
+
 	var getIncome = function() {
 		return $localStorage.income;
 	};
@@ -174,6 +200,7 @@ app.factory('incomeService',
 
 	return {
 		addIncome: addIncome,
+		removeIncome: removeIncome,
 		getIncome: getIncome,
 		getNetAmount: getNetAmount,
 		on : function(evt, cb) {
