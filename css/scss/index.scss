@@ -5,30 +5,117 @@
 
 html, body {
 	height: 100%;
-	background-color: #226666;
-	color: white;
+	background-color: #FFF;
+	color: #333;
+	font-size: 16px;
+	font-family: 'Open Sans', sans-serif;
+}
+
+body {
+	box-sizing: border-box;
+	padding-left: 15px;
+	padding-right: 15px;
 }
 
 .color-primary-0 { background: #226666 }	/* Main Primary color */
-.color-primary-1 { background: #669999 }
-.color-primary-2 { background: #407F7F }
+.color-primary-1 { background: #DDD }
+.color-primary-2 { background: #EFEFEF }
 .color-primary-3 { background: #0D4D4D }
 .color-primary-4 { background: #003333 }
 
+.pure-button-primary {
+	background: #AAA;
+}
+
+.button-secondary {
+    background: #999;
+    color: #FFF;
+}	
+.pure-form input[type=text] {
+	padding: 6px 12px;
+}
+
+.expenseForm {
+	.top {
+		padding: 20px;
+	}
+}
+.clearfix:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+ul.inline {
+	padding: 0;
+	margin: 0;
+	list-style: none;
+	
+}
+.table {
+	display: table;
+}
+.cell {
+	display: table-cell;
+}
+
 header {
-	text-align: center;
-	color: white;
+	margin-left: -15px;
+	margin-right: -15px;
+	background: #000;
+	width: 100%;
+	padding: 10px 15px;
+	display: table;
+
+	color: #FFF;
+	h1 {
+		font-size: 15px;
+		margin: 0;
+		text-transform: uppercase;
+	  	vertical-align: middle;
+	}
+
+	ul {
+		line-height: 18px;
+	}
+
+	li {
+		font-size: 13px;
+		text-align: left;
+	}
+	.left {
+		vertical-align: middle;
+	}
+	.gross {
+		color: #DAFFD6;
+	}
+	.net {
+		color: #C9FFC4;
+	}
+	.deduction {
+		color: #FFB0B0;
+	}
 }
 
 .valueInput {
 	text-align: center;
+	padding: 40px 0;
 }
 
 #expenseForm {
 }
 
+.pull-left {
+	float: left;
+}
 .pull-right {
 	float: right;
+}
+.text-left {
+	text-align: left;
+}
+.text-right {
+	text-align: right;
 }
 
 .hide-on-mobile {
@@ -40,20 +127,29 @@ input {
 }
 
 .output {
-
+	border: 1px solid #EFEFEF;
+	padding: 15px;
+	.expenseOutput {
+		margin-bottom: 20px;
+	}
 	ul {
 		list-style: none;
 		margin: 5px;
-
+		h2, li {
+			padding: 6px 12px;
+		}
 		h2 {
-			color: white;
+			color: #333;
+			text-transform: uppercase;
+			font-size: 18px;
+			border-top: 1px solid #EFEFEF;
+			border-left: 1px solid #EFEFEF;
+			border-right: 1px solid #EFEFEF;
 		}
 
 		
 		li {
-			padding: 5px;
-			color: black;
-
+			font-size: 0.9em;
 			&:nth-child(odd) {
 				@extend .color-primary-1;
 			}
@@ -62,7 +158,6 @@ input {
 				@extend .color-primary-2;
 			}
 
-			font-size: 18px;
 		}
 	}
 }
@@ -83,11 +178,6 @@ input {
 	color: #880202;
 }
 
-.button-secondary {
-	color: white;
-    background: rgb(66, 184, 221); /* this is a light blue */
-}	
-
 
 /* Mobile first queries */
 
@@ -99,7 +189,14 @@ input {
 
 /* Larger than tablet */
 @media (min-width: 750px) {
-	
+	header {
+	}
+	ul.inline {
+		li {
+			display: inline-block;
+			margin: 0 5px;
+		}
+	}
 }
 
 /* Larger than desktop */

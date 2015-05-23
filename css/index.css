@@ -4,18 +4,25 @@
 
 html, body {
   height: 100%;
-  background-color: #226666;
-  color: white; }
+  background-color: #FFF;
+  color: #333;
+  font-size: 16px;
+  font-family: 'Open Sans', sans-serif; }
+
+body {
+  box-sizing: border-box;
+  padding-left: 15px;
+  padding-right: 15px; }
 
 .color-primary-0 {
   background: #226666; }
 
 /* Main Primary color */
 .color-primary-1, .output ul li:nth-child(odd) {
-  background: #669999; }
+  background: #DDD; }
 
 .color-primary-2, .output ul li:nth-child(even) {
-  background: #407F7F; }
+  background: #EFEFEF; }
 
 .color-primary-3 {
   background: #0D4D4D; }
@@ -23,15 +30,77 @@ html, body {
 .color-primary-4 {
   background: #003333; }
 
+.pure-button-primary {
+  background: #AAA; }
+
+.button-secondary {
+  background: #999;
+  color: #FFF; }
+
+.pure-form input[type=text] {
+  padding: 6px 12px; }
+
+.expenseForm .top {
+  padding: 20px; }
+
+.clearfix:after {
+  content: "";
+  display: table;
+  clear: both; }
+
+ul.inline {
+  padding: 0;
+  margin: 0;
+  list-style: none; }
+
+.table {
+  display: table; }
+
+.cell {
+  display: table-cell; }
+
 header {
-  text-align: center;
-  color: white; }
+  margin-left: -15px;
+  margin-right: -15px;
+  background: #000;
+  width: 100%;
+  padding: 10px 15px;
+  display: table;
+  color: #FFF; }
+  header h1 {
+    font-size: 15px;
+    margin: 0;
+    text-transform: uppercase;
+    vertical-align: middle; }
+  header ul {
+    line-height: 18px; }
+  header li {
+    font-size: 13px;
+    text-align: left; }
+  header .left {
+    vertical-align: middle; }
+  header .gross {
+    color: #DAFFD6; }
+  header .net {
+    color: #C9FFC4; }
+  header .deduction {
+    color: #FFB0B0; }
 
 .valueInput {
-  text-align: center; }
+  text-align: center;
+  padding: 40px 0; }
+
+.pull-left {
+  float: left; }
 
 .pull-right {
   float: right; }
+
+.text-left {
+  text-align: left; }
+
+.text-right {
+  text-align: right; }
 
 .hide-on-mobile {
   display: none; }
@@ -39,15 +108,25 @@ header {
 input {
   color: black; }
 
-.output ul {
-  list-style: none;
-  margin: 5px; }
-  .output ul h2 {
-    color: white; }
-  .output ul li {
-    padding: 5px;
-    color: black;
-    font-size: 18px; }
+.output {
+  border: 1px solid #EFEFEF;
+  padding: 15px; }
+  .output .expenseOutput {
+    margin-bottom: 20px; }
+  .output ul {
+    list-style: none;
+    margin: 5px; }
+    .output ul h2, .output ul li {
+      padding: 6px 12px; }
+    .output ul h2 {
+      color: #333;
+      text-transform: uppercase;
+      font-size: 18px;
+      border-top: 1px solid #EFEFEF;
+      border-left: 1px solid #EFEFEF;
+      border-right: 1px solid #EFEFEF; }
+    .output ul li {
+      font-size: 0.9em; }
 
 .remove {
   margin: 0 10px;
@@ -61,15 +140,14 @@ input {
 .deduction {
   color: #880202; }
 
-.button-secondary {
-  color: white;
-  background: #42b8dd;
-  /* this is a light blue */ }
-
 /* Mobile first queries */
 /* Larger than mobile */
 /* Larger than phablet */
 /* Larger than tablet */
+@media (min-width: 750px) {
+  ul.inline li {
+    display: inline-block;
+    margin: 0 5px; } }
 /* Larger than desktop */
 @media (min-width: 1000px) {
   .hide-on-mobile {

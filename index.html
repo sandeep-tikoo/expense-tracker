@@ -5,11 +5,24 @@
 	<meta name="viewport" content="width=device-width">
 	<title>Expenses Tracker</title>
 	<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" type="text/css" href="css/index.css">
 </head>
 <body ng-app="expenses">
-	<header ng-controller="HandleCtrl as ctrl">
-		<h1>Expense Tracker</h1>
+	<header class="clearfix table" ng-controller="OutputCtrl as output">
+		<div class="cell left">
+			<h1>Expense Tracker</h1>
+
+		</div>
+		<div class="cell right">
+			<ul class="inline totals pull-right">
+				<li>Gross&nbsp;<em class="pull-right addition gross">{{output.grossIncome | currency}}</em></li>
+				<li>Expenses&nbsp;<em class="pull-right deduction">{{output.totalExpenses | currency}}</em></li>
+				<li>Net&nbsp;<em class="pull-right addition net">{{output.netIncome | currency}}</em></li>
+			</ul>
+
+		</div>
+		<div></div>
 	</header>
 	<div class="valueInput" ng-controller="HandleCtrl as handle">
 		<button class="pure-button pure-button-primary" ng-click="handle.showExpense()">Add Expense</button>
@@ -17,16 +30,20 @@
 		<div class="expenseForm" ng-controller="ExpenseCtrl as ctrl">
 			<form id="expenseForm" class="pure-form pure-form-aligned" novalidate ng-submit="ctrl.addExpense(ctrl.expense)" ng-show="handle.expenseVisible">
 				<fieldset>
-					<div class="pure-control-group">
-						<label for="expenseInput">Name of expense:</label>
-						<input type="text" name="expenseInput" ng-model="ctrl.expense.name" required>
+					<div class="top">
+						<div class="pure-control-group">
+							<label for="expenseInput">Name of expense:</label>
+							<input type="text" name="expenseInput" ng-model="ctrl.expense.name" required>
+						</div>
+						<div class="pure-control-group">
+							<label for="expenseAmount">Amount:</label>
+							<input type="text" name="expenseAmount" ng-model="ctrl.expense.amount" required>
+						</div>
 					</div>
-					<div class="pure-control-group">
-						<label for="expenseAmount">Amount:</label>
-						<input type="text" name="expenseAmount" ng-model="ctrl.expense.amount" required>
-					</div>
-					<div class="pure-control-group">
-						<button type="submit" class="pure-button button-secondary">Submit</button>
+					<div class="bottom">
+						<div class="pure-control-group">
+							<button type="submit" class="pure-button button-secondary">Submit</button>
+						</div>
 					</div>
 				</fieldset>
 			</form>
@@ -34,16 +51,20 @@
 	  <div class="incomeForm" ng-controller="IncomeCtrl as ctrl">
 			<form id="incomeForm" class="pure-form pure-form-aligned" novalidate ng-submit="ctrl.addIncome(ctrl.income)" ng-show="handle.incomeVisible">
 				<fieldset>
-					<div class="pure-control-group">
-						<label for="incomeInput">Name of income:</label>
-						<input type="text" name="incomeInput" ng-model="ctrl.income.name" required>
+					<div class="top">
+						<div class="pure-control-group">
+							<label for="incomeInput">Name of income:</label>
+							<input type="text" name="incomeInput" ng-model="ctrl.income.name" required>
+						</div>
+						<div class="pure-control-group">
+							<label for="incomeAmount">Amount:</label>
+							<input type="text" name="incomeAmount" ng-model="ctrl.income.amount" required>
+						</div>
 					</div>
-					<div class="pure-control-group">
-						<label for="incomeAmount">Amount:</label>
-						<input type="text" name="incomeAmount" ng-model="ctrl.income.amount" required>
-					</div>
-					<div class="pure-control-group">
-						<button type="submit" class="pure-button button-secondary">Submit</button>
+					<div class="bottom">
+						<div class="pure-control-group">
+							<button type="submit" class="pure-button button-secondary">Submit</button>
+						</div>
 					</div>
 				</fieldset>
 			</form>
@@ -67,12 +88,7 @@
 				{{income.name}}<em class="pull-right addition">+{{income.amount | currency }}</em>
 			</li>
 		</ul>
-		<ul class="totals">
-			<h2>Totals</h2>
-			<li>Gross Income: <em class="pull-right addition">{{output.grossIncome | currency}}</em></li>
-			<li>Total Expenses: <em class="pull-right deduction">{{output.totalExpenses | currency}}</em></li>
-			<li>Net Income: <em class="pull-right addition">{{output.netIncome | currency}}</em></li>
-		</ul>
+		
 		</div>
 	</div>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
