@@ -113,14 +113,6 @@ app.factory('expenseService',
 
 	var expenseScope = $rootScope.$new();
 	$localStorage.expenses = $localStorage.expenses || [
-		{
-			'name': 'Food',
-			'amount': 10.24
-		},
-		{
-			'name': 'Gas',
-			'amount': 50.45
-		}
 	];
 
 	var addExpense = function(newExpense) {
@@ -164,14 +156,6 @@ app.factory('incomeService',
 
 	var incomeScope = $rootScope.$new();
 	$localStorage.income = $localStorage.income || [
-		{
-			'name': 'Paycheque',
-			'amount': 300.00
-		},
-		{
-			'name': 'Lottery',
-			'amount': 45.00
-		}
 	];
 
 	var addIncome = function(newIncome) {
