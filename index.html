@@ -28,42 +28,42 @@
 		<button class="pure-button pure-button-primary" ng-click="handle.showExpense()">Add Expense</button>
 		<button class="pure-button pure-button-primary" ng-click="handle.showIncome()">Add Income</button>
 		<div class="expenseForm" ng-controller="ExpenseCtrl as ctrl">
-			<form id="expenseForm" class="pure-form pure-form-aligned" novalidate ng-submit="ctrl.addExpense(ctrl.expense)" ng-show="handle.expenseVisible">
+			<form id="expenseForm" name="expenseForm" class="pure-form pure-form-aligned" novalidate ng-submit="ctrl.addExpense(ctrl.expense)" ng-show="handle.expenseVisible">
 				<fieldset>
 					<div class="top">
 						<div class="pure-control-group">
 							<label for="expenseInput">Name of expense:</label>
-							<input type="text" name="expenseInput" ng-model="ctrl.expense.name" required>
+							<input type="text" name="expenseInput" ng-model="ctrl.expense.name" required ng-minlength="1">
 						</div>
 						<div class="pure-control-group">
 							<label for="expenseAmount">Amount:</label>
-							<input type="text" name="expenseAmount" ng-model="ctrl.expense.amount" required>
+							<input type="number" name="expenseAmount" ng-model="ctrl.expense.amount" required ng-minlength="1">
 						</div>
 					</div>
 					<div class="bottom">
 						<div class="pure-control-group">
-							<button type="submit" class="pure-button button-secondary">Submit</button>
+							<button type="submit" class="pure-button button-secondary" ng-disabled="expenseForm.$invalid">Submit</button>
 						</div>
 					</div>
 				</fieldset>
 			</form>
 	  </div>
 	  <div class="incomeForm" ng-controller="IncomeCtrl as ctrl">
-			<form id="incomeForm" class="pure-form pure-form-aligned" novalidate ng-submit="ctrl.addIncome(ctrl.income)" ng-show="handle.incomeVisible">
+			<form id="incomeForm" name="incomeForm" class="pure-form pure-form-aligned" novalidate ng-submit="ctrl.addIncome(ctrl.income)" ng-show="handle.incomeVisible">
 				<fieldset>
 					<div class="top">
 						<div class="pure-control-group">
 							<label for="incomeInput">Name of income:</label>
-							<input type="text" name="incomeInput" ng-model="ctrl.income.name" required>
+							<input type="text" name="incomeInput" ng-model="ctrl.income.name" required ng-minlength="1">
 						</div>
 						<div class="pure-control-group">
 							<label for="incomeAmount">Amount:</label>
-							<input type="text" name="incomeAmount" ng-model="ctrl.income.amount" required>
+							<input type="number" name="incomeAmount" ng-model="ctrl.income.amount" required ng-minlength="1">
 						</div>
 					</div>
 					<div class="bottom">
 						<div class="pure-control-group">
-							<button type="submit" class="pure-button button-secondary">Submit</button>
+							<button type="submit" class="pure-button button-secondary" ng-disabled="incomeForm.$invalid">Submit</button>
 						</div>
 					</div>
 				</fieldset>
