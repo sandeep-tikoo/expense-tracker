@@ -1,15 +1,30 @@
 var app = angular.module('expenses', ['appControllers', 'ngStorage']);
 
+app.constant('REVENUE_TYPE', {
+	INCOME: 'income',
+	EXPENSE: 'expense'
+});
+
+// Constant: FREQUENCY - defined to help minimise potential for human error
+// in typing frequencies as (unchecked) string literals throughout the app
+app.constant('FREQUENCY', {
+	ONCE: 'once',
+	FORTNIGHT: 'fortnightly',
+	MONTH: 'monthly',
+	QUARTER: 'quarterly',
+	YEAR: 'yearly'
+});
+
 app.factory('summaryService', ['expenseService', 'incomeService', '$rootScope', function(expenseService, incomeService, $rootScope){
 
   var summaryScope = $rootScope.$new();
 	function updateTotals() {
 		var totals = {};
-		totals.expenses = expenseService.getExpenses();
-		totals.income = incomeService.getIncome();
-		totals.totalExpenses = expenseService.getNetAmount();
-		totals.netIncome = incomeService.getNetAmount() - expenseService.getNetAmount();
-		totals.grossIncome = incomeService.getNetAmount();
+		totals.expenses = expenseService.get();
+		totals.income = incomeService.get();
+		totals.totalExpenses = expenseService.total();
+		totals.netIncome = incomeService.total() - expenseService.total();
+		totals.grossIncome = incomeService.total();
 		summaryScope.$emit('totals-updated', totals);
 		return totals;
 	}
@@ -18,7 +33,7 @@ app.factory('summaryService', ['expenseService', 'incomeService', '$rootScope', 
 	incomeService.on('income-added', updateTotals);
 	expenseService.on('expense-removed', updateTotals);
 	incomeService.on('income-removed', updateTotals);
-	
+
 	return {
 		updateTotals: updateTotals,
 		on: function(evt, cb) {
@@ -28,88 +43,106 @@ app.factory('summaryService', ['expenseService', 'incomeService', '$rootScope', 
 
 }]);
 
-app.factory('expenseService', 
-	['$rootScope', '$localStorage',
-	function($rootScope, $localStorage) {
+/**
+ * Service revenueService.
+ *  An abstraction of Incomes and Expenses that defines a base model,
+ *  mutators, and functions that both Incomes and Expenses use
+ *
+ * @param revenueType - the REVENUE_TYPE (app constant) that this instance should
+ *   be constructed as
+ */
+app.factory('revenueService',
+	['$rootScope', '$localStorage', 'FREQUENCY',
+	function($rootScope, $localStorage, FREQUENCY) {
 
-	var expenseScope = $rootScope.$new();
-	$localStorage.expenses = $localStorage.expenses || [
-	];
+		var revenueScope = $rootScope.$new();
 
-	var addExpense = function(newExpense) {
-		$localStorage.expenses.push(newExpense);
-		expenseScope.$emit('expense-added',newExpense);
-	};
+		$localStorage.expenses = $localStorage.expenses || [];
+		var revenueType = null; // should be set as one of the
 
-	var removeExpense = function(expense) {
-		var i = $localStorage.expenses.indexOf(expense);
-		$localStorage.expenses.splice(i, 1); // remove the item
-		expenseScope.$emit('expense-removed',expense);
-	}
-
-	var getExpenses = function() {
-		return $localStorage.expenses;
-	};
-
-	var getNetAmount = function() {
-		var total = 0;
-		for (var i = 0; i < $localStorage.expenses.length; i++) {
-			var obj = $localStorage.expenses[i];
-			total += parseFloat(obj.amount);
+		/**
+		 * Function model()
+		 *  @return - Blank Model containing default starting values
+		 */
+		var model = function() {
+			return {
+				name: "",
+				amount: "",
+				frequency: FREQUENCY.ONCE
+			}
 		}
-		return total;
-	}
 
-	return {
-		addExpense: addExpense,
-		removeExpense: removeExpense,
-		getExpenses: getExpenses,
-		getNetAmount: getNetAmount,
-		on : function(evt,cb) {
-			return expenseScope.$on(evt, cb);
+		/**
+		 * function add() - adds a model instance to the defined revenue type collection
+		 * @param model - A revenue Model
+		 */
+		var add = function(model) {
+			$localStorage[revenueType].push(model);
+			revenueScope.$emit(revenueType+'-added', model);
+		};
+
+		/**
+		 * function remove() - removes a model instance from the defined revenue type collection
+		 * @param model - A revenue Model
+		 */
+		var remove = function(model) {
+			var i = $localStorage[revenueType].indexOf(model);
+			$localStorage[revenueType].splice(i, 1); // remove the item
+			revenueScope.$emit(revenueType+'-removed', model);
+		};
+
+		/**
+		 * function get()
+		 * @return - the entire revenue collection
+		 */
+		var get = function() {
+			return $localStorage[revenueType];
+		};
+
+		/**
+		 * function total()
+		 * @return - the accumulative financial value of the entire revenue collection
+		 */
+		var total = function() {
+			var total = 0;
+			for (var i = 0; i < $localStorage[revenueType].length; i++) {
+				var obj = $localStorage[revenueType][i];
+				total += parseFloat(obj.amount);
+			}
+			return total;
 		}
-	};
+
+		return function(_revenueType) {
+			revenueType = _revenueType;
+			return  {
+				model: model,
+				add: add,
+				remove: remove,
+				get: get,
+				total: total,
+				on : function(evt,cb) {
+					return revenueScope.$on(evt, cb);
+				}
+			};
+		};
 }]);
 
-app.factory('incomeService', 
-	['$rootScope', '$localStorage',
-	function($rootScope, $localStorage) {
+/**
+ * Service expenseService - simply a wrapper to provide a revenueService instantiated as an Expense
+ */
+app.factory('expenseService',
+	['$rootScope', 'revenueService', 'REVENUE_TYPE',
+	function($rootScope, revenueService, REVENUE_TYPE) {
 
-	var incomeScope = $rootScope.$new();
-	$localStorage.income = $localStorage.income || [
-	];
+		return revenueService(REVENUE_TYPE.EXPENSE);
+}]);
 
-	var addIncome = function(newIncome) {
-		$localStorage.income.push(newIncome);
-		incomeScope.$emit('income-added',newIncome);
-	};
+/**
+ * Service incomeService - simply a wrapper to provide a revenueService instantiated as an Income
+ */
+app.factory('incomeService',
+	['$rootScope', 'revenueService', 'REVENUE_TYPE',
+	function($rootScope, revenueService, REVENUE_TYPE) {
 
-	var removeIncome = function(income) {
-		var i = $localStorage.income.indexOf(income);
-		$localStorage.income.splice(i, 1); // remove the item
-		incomeScope.$emit('income-removed',income);
-	}
-
-	var getIncome = function() {
-		return $localStorage.income;
-	};
-
-	var getNetAmount = function() {
-		var total = 0;
-		for (var i = 0; i < $localStorage.income.length; i++) {
-			var obj = $localStorage.income[i];
-			total += parseFloat(obj.amount);
-		}
-		return total;
-	}
-
-	return {
-		addIncome: addIncome,
-		removeIncome: removeIncome,
-		getIncome: getIncome,
-		getNetAmount: getNetAmount,
-		on : function(evt, cb) {
-			return incomeScope.$on(evt, cb);
-		}
-	};
+		return revenueService(REVENUE_TYPE.INCOME);
 }]);

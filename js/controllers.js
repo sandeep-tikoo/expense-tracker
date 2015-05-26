@@ -3,14 +3,11 @@ var appControllers = angular.module('appControllers', []);
 appControllers.controller('ExpenseCtrl',['expenseService', function(expenseService) {
 	var vm = this;
 	
-	vm.expense = {
-		name: "",
-		amount: ""
-	};
+	vm.expense = expenseService.model();
 
 	vm.addExpense = function(expense) {
-		expenseService.addExpense(expense);
-		vm.expense = {};
+		expenseService.add(expense);
+		vm.expense = expenseService.model();;
 	};
 
 }]);
@@ -18,14 +15,11 @@ appControllers.controller('ExpenseCtrl',['expenseService', function(expenseServi
 appControllers.controller('IncomeCtrl',['incomeService', function(incomeService) {
 	var vm = this;
 	
-	vm.income = {
-		name: "",
-		amount: ""
-	};
+	vm.income = incomeService.model();
 
 	vm.addIncome = function(income) {
-		incomeService.addIncome(income);
-		vm.income = {};
+		incomeService.add(income);
+		vm.income = incomeService.model();
 	};
 
 }]);
@@ -64,11 +58,11 @@ appControllers.controller('OutputCtrl',
   }	
 
   vm.removeIncome = function(income) {
-  	incomeService.removeIncome(income);
+  	incomeService.remove(income);
   }
 
   vm.removeExpense = function(expense) {
-  	expenseService.removeExpense(expense);
+  	expenseService.remove(expense);
   }
 
 	$scope.$on('$destroy', function() {

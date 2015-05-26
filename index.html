@@ -37,6 +37,17 @@
 					<label for="expenseAmount">Amount:</label>
 					<input type="number" name="expenseAmount" ng-model="ctrl.expense.amount" required ng-minlength="1">
 				</div>
+				<div class="pure-control-group">
+					<label for="expenseFrequency">Frequency:</label>
+					<select name="expenseFrequency" ng-model="ctrl.expense.frequency" required>
+						<option value="once">Once Off</option>
+						<option value="weekly">Weekly</option>
+						<option value="fortnightly">Fortnightly</option>
+						<option value="monthly">Monthly</option>
+						<option value="quarterly">Quarterly</option>
+						<option value="yearly">Yearly</option>
+					</select>
+				</div>
 			</div>
 			<div class="bottom">
 				<div class="pure-control-group">
@@ -56,6 +67,17 @@
 				<div class="pure-control-group">
 					<label for="incomeAmount">Amount:</label>
 					<input type="number" name="incomeAmount" ng-model="ctrl.income.amount" required ng-minlength="1">
+				</div>
+				<div class="pure-control-group">
+					<label for="incomeFrequency">Frequency:</label>
+					<select name="incomeFrequency" ng-model="ctrl.income.frequency" required>
+						<option value="once">Once Off</option>
+						<option value="weekly">Weekly</option>
+						<option value="fortnightly">Fortnightly</option>
+						<option value="monthly">Monthly</option>
+						<option value="quarterly">Quarterly</option>
+						<option value="yearly">Yearly</option>
+					</select>
 				</div>
 			</div>
 			<div class="bottom">
