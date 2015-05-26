@@ -20,8 +20,8 @@ app.factory('summaryService', ['expenseService', 'incomeService', '$rootScope', 
   var summaryScope = $rootScope.$new();
 	function updateTotals() {
 		var totals = {};
-		totals.expenses = expenseService.get();
-		totals.income = incomeService.get();
+		totals.expenses = expenseService.items();
+		totals.income = incomeService.items();
 		totals.totalExpenses = expenseService.total();
 		totals.netIncome = incomeService.total() - expenseService.total();
 		totals.grossIncome = incomeService.total();
@@ -44,105 +44,85 @@ app.factory('summaryService', ['expenseService', 'incomeService', '$rootScope', 
 }]);
 
 /**
- * Service revenueService.
+ * Object Revenue.
  *  An abstraction of Incomes and Expenses that defines a base model,
  *  mutators, and functions that both Incomes and Expenses use
  *
- * @param _revenueType - the REVENUE_TYPE (app constant) that this instance should
+ * @param revenueType - the REVENUE_TYPE (app constant) that this instance should
  *   be constructed as
  */
-app.factory('revenueService',
-	['$rootScope', '$localStorage', 'FREQUENCY',
-	function($rootScope, $localStorage, FREQUENCY) {
-
-		var revenueScope = $rootScope.$new();
-
-		$localStorage.expenses = $localStorage.expenses || [];
-		var revenueType = null;
-
-		/**
-		 * Function model()
-		 *  @return - Blank Model containing default starting values
-		 */
-		var model = function() {
-			return {
-				name: "",
-				amount: "",
-				frequency: FREQUENCY.ONCE
-			}
-		}
-
-		/**
-		 * function add() - adds a model instance to the defined revenue type collection
-		 * @param model - A revenue Model
-		 */
-		var add = function(model) {
-			$localStorage[revenueType].push(model);
-			revenueScope.$emit(revenueType+'-added', model);
-		};
-
-		/**
-		 * function remove() - removes a model instance from the defined revenue type collection
-		 * @param model - A revenue Model
-		 */
-		var remove = function(model) {
-			var i = $localStorage[revenueType].indexOf(model);
-			$localStorage[revenueType].splice(i, 1); // remove the item
-			revenueScope.$emit(revenueType+'-removed', model);
-		};
-
-		/**
-		 * function get()
-		 * @return - the entire revenue collection
-		 */
-		var get = function() {
-			return $localStorage[revenueType];
-		};
-
-		/**
-		 * function total()
-		 * @return - the accumulative financial value of the entire revenue collection
-		 */
-		var total = function() {
-			var total = 0;
-			for (var i = 0; i < $localStorage[revenueType].length; i++) {
-				var obj = $localStorage[revenueType][i];
-				total += parseFloat(obj.amount);
-			}
-			return total;
-		}
-
-		return function(_revenueType) {
-			revenueType = _revenueType;
-			return  {
-				model: model,
-				add: add,
-				remove: remove,
-				get: get,
-				total: total,
-				on : function(evt,cb) {
-					return revenueScope.$on(evt, cb);
-				}
-			};
-		};
-}]);
+function Revenue($rootScope, $localStorage, FREQUENCY, revenueType) {
+		this.revenueScope = $rootScope.$new();
+		this.revenueType = revenueType;
+		this.FREQUENCY = FREQUENCY;
+		this.storage = $localStorage[revenueType] || [];
+}
+/**
+ * Function model()
+ *  @return - Blank Model containing default starting values
+ */
+Revenue.prototype.model = function() {
+	return {
+		name: "",
+		amount: "",
+		frequency: this.FREQUENCY.ONCE
+	}
+}
 
 /**
- * Service expenseService - simply a wrapper to provide a revenueService instantiated as an Expense
+ * function add() - adds a model instance to the defined revenue type collection
+ * @param model - A revenue Model
  */
-app.factory('expenseService',
-	['$rootScope', 'revenueService', 'REVENUE_TYPE',
-	function($rootScope, revenueService, REVENUE_TYPE) {
-
-		return revenueService(REVENUE_TYPE.EXPENSE);
-}]);
+Revenue.prototype.add = function(model) {
+	this.storage.push(model);
+	this.revenueScope.$emit(this.revenueType+'-added', model);
+};
 
 /**
- * Service incomeService - simply a wrapper to provide a revenueService instantiated as an Income
+ * function remove() - removes a model instance from the defined revenue type collection
+ * @param model - A revenue Model
  */
-app.factory('incomeService',
-	['$rootScope', 'revenueService', 'REVENUE_TYPE',
-	function($rootScope, revenueService, REVENUE_TYPE) {
+Revenue.prototype.remove = function(model) {
+	var i = storage.indexOf(model);
+	this.items.splice(i, 1); // remove the item
+	this.revenueScope.$emit(this.revenueType+'-removed', model);
+};
 
-		return revenueService(REVENUE_TYPE.INCOME);
+/**
+ * function items()
+ * @return - the entire revenue collection
+ */
+Revenue.prototype.items = function() {
+	return this.storage;
+};
+
+/**
+ * function total()
+ * @return - the accumulative financial value of the entire revenue collection
+ */
+Revenue.prototype.total = function() {
+	var total = 0;
+	for (var i = 0; i < this.storage.length; i++) {
+		total += parseFloat(this.storage[i].amount);
+	}
+	return total;
+}
+/**
+ * function on() - Wrapper function for the $rootScope $on() function.
+ */
+Revenue.prototype.on = function(evt,cb) {
+	return this.revenueScope.$on(evt, cb);
+}
+
+/**
+ * Service expenseService - simply a wrapper to provide a Revenue instantiated as an Expense
+ */
+app.factory('expenseService', ['$injector', 'REVENUE_TYPE', function ($injector, REVENUE_TYPE) {
+		return $injector.instantiate(Revenue,{ revenueType: REVENUE_TYPE.EXPENSE });
+}]);
+/**
+ * Service incomeService - simply a wrapper to provide a Revenue instantiated as an Income
+ */
+app.factory('incomeService', ['$injector', 'REVENUE_TYPE', function ($injector, REVENUE_TYPE) {
+		return $injector.instantiate(Revenue,{ revenueType: REVENUE_TYPE.INCOME });
 }]);
