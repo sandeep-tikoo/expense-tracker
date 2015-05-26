@@ -48,7 +48,7 @@ app.factory('summaryService', ['expenseService', 'incomeService', '$rootScope', 
  *  An abstraction of Incomes and Expenses that defines a base model,
  *  mutators, and functions that both Incomes and Expenses use
  *
- * @param revenueType - the REVENUE_TYPE (app constant) that this instance should
+ * @param _revenueType - the REVENUE_TYPE (app constant) that this instance should
  *   be constructed as
  */
 app.factory('revenueService',
@@ -58,7 +58,7 @@ app.factory('revenueService',
 		var revenueScope = $rootScope.$new();
 
 		$localStorage.expenses = $localStorage.expenses || [];
-		var revenueType = null; // should be set as one of the
+		var revenueType = null;
 
 		/**
 		 * Function model()
