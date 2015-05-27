@@ -6,6 +6,7 @@
 	<title>Expenses Tracker</title>
 	<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 	<link rel="stylesheet" type="text/css" href="css/index.css">
 	<link rel="stylesheet" type="text/css" href="css/jquery.remodal.css" media="screen">
 </head>
@@ -95,7 +96,14 @@
 			<h2>Expenses<a href="#expenseModal"><span class="pull-right">&plus;</span></a></h2>
 			<li ng-show="output.expenses.length === 0">No expenses added yet!</li>
 			<li ng-repeat="expense in output.expenses" class="expense">
-				<span class="pull-right remove" ng-click="output.removeExpense(expense)">&times;</span>
+				<span class="pull-right remove">
+					<span ng-click="output.removeExpense(expense)">
+						<i class="fa fa-times"></i>
+					</span>
+					<span ng-click="output.editExpense(expense)">
+						<i class="fa fa-pencil"></i>
+					</span>
+				</span>
 				{{expense.name}}<em class="pull-right deduction">-{{expense.amount | currency }}</em>
 			</li>
 		</ul>
@@ -103,7 +111,14 @@
 			<h2>Income<a href="#incomeModal"><span class="pull-right">&plus;</span></a></h2>
 			<li ng-show="output.income.length === 0">No income added yet!</li>
 			<li ng-repeat="income in output.income" class="expense">
-				<span class="pull-right remove" ng-click="output.removeIncome(income)">&times;</span>
+				<span class="pull-right remove">
+					<span ng-click="output.removeIncome(income)">
+						<i class="fa fa-times"></i>
+					</span>
+					<span ng-click="output.editIncome(income)">
+						<i class="fa fa-pencil"></i>
+					</span>
+				</span>
 				{{income.name}}<em class="pull-right addition">+{{income.amount | currency }}</em>
 			</li>
 		</ul>

@@ -7,7 +7,7 @@ appControllers.controller('ExpenseCtrl',['expenseService', function(expenseServi
 
 	vm.addExpense = function(expense) {
 		expenseService.add(expense);
-		vm.expense = expenseService.model();;
+		vm.expense = expenseService.model();
 	};
 
 }]);
@@ -61,9 +61,19 @@ appControllers.controller('OutputCtrl',
   	incomeService.remove(income);
   }
 
+  vm.editIncome = function(income) {
+		var inst = $.remodal.lookup[$('[data-remodal-id=expenseModal]').data('remodal')];
+		inst.open();
+	};
+
   vm.removeExpense = function(expense) {
   	expenseService.remove(expense);
   }
+
+	vm.editExpense = function(expense) {
+		var inst = $.remodal.lookup[$('[data-remodal-id=expenseModal]').data('remodal')];
+		inst.open();
+	};
 
 	$scope.$on('$destroy', function() {
 		summaryHandler();

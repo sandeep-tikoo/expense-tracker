@@ -107,6 +107,11 @@ Revenue.prototype.total = function() {
 	}
 	return total;
 }
+
+Revenue.prototype.edit = function(model) {
+	var i = this.storage.indexOf(model);
+}
+
 /**
  * function on() - Wrapper function for the $rootScope $on() function.
  */
