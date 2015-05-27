@@ -93,7 +93,7 @@
 
 	<div class="output" ng-controller="OutputCtrl as output">
 		<ul class="expenseOutput">
-			<h2>Expenses<a href="#expenseModal"><span class="pull-right">&plus;</span></a></h2>
+			<h2>Expenses<a href="#expenseModal"><span class="pull-right"><i class="fa fa-plus"></i></span></a></h2>
 			<li ng-show="output.expenses.length === 0">No expenses added yet!</li>
 			<li ng-repeat="expense in output.expenses" class="expense">
 				<span class="pull-right remove">
@@ -108,7 +108,7 @@
 			</li>
 		</ul>
 		<ul class="incomeOutput">
-			<h2>Income<a href="#incomeModal"><span class="pull-right">&plus;</span></a></h2>
+			<h2>Income<a href="#incomeModal"><span class="pull-right"><i class="fa fa-plus"></i></span></a></h2>
 			<li ng-show="output.income.length === 0">No income added yet!</li>
 			<li ng-repeat="income in output.income" class="expense">
 				<span class="pull-right remove">
