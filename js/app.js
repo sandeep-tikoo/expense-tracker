@@ -78,6 +78,9 @@ Revenue.prototype.model = function() {
  */
 Revenue.prototype.add = function(model) {
 	model.id = this.localStorage[this.revenueType].length;
+	if (parseFloat(model.amount) <= 0) {
+		model.amount = parseFloat(model.amount) * -1;
+	}
 	this.localStorage[this.revenueType].push(model);
 	this.revenueScope.$emit(this.revenueType+'-added', model);
 };
