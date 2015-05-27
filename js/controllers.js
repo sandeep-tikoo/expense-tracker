@@ -24,23 +24,6 @@ appControllers.controller('IncomeCtrl',['incomeService', function(incomeService)
 
 }]);
 
-appControllers.controller('HandleCtrl', [function() {
-	var vm = this;
-
-	vm.expenseVisible = false;
-	vm.incomeVisible = false;
-	
-	vm.showExpense = function() {
-		vm.incomeVisible = false;
-		vm.expenseVisible = true;
-	};
-
-	vm.showIncome = function() {
-		vm.expenseVisible = false;
-		vm.incomeVisible = true;
-	};
-}]);
-
 appControllers.controller('OutputCtrl', 
 	['$scope', 'summaryService', 'expenseService', 'incomeService', 
 	function($scope, summaryService, expenseService, incomeService) {
