@@ -55,7 +55,9 @@ function Revenue($rootScope, $localStorage, FREQUENCY, revenueType) {
 		this.revenueScope = $rootScope.$new();
 		this.revenueType = revenueType;
 		this.FREQUENCY = FREQUENCY;
-		this.storage = $localStorage[revenueType] || [];
+		// Ensure storage has been creatd for this revenueType
+		$localStorage[revenueType] = $localStorage[revenueType] || [];
+		this.localStorage = $localStorage;
 }
 /**
  * Function model()
@@ -74,7 +76,7 @@ Revenue.prototype.model = function() {
  * @param model - A revenue Model
  */
 Revenue.prototype.add = function(model) {
-	this.storage.push(model);
+	this.localStorage[this.revenueType].push(model);
 	this.revenueScope.$emit(this.revenueType+'-added', model);
 };
 
@@ -83,7 +85,7 @@ Revenue.prototype.add = function(model) {
  * @param model - A revenue Model
  */
 Revenue.prototype.remove = function(model) {
-	var i = this.storage.indexOf(model);
+	var i = this.localStorage[this.revenueType].indexOf(model);
 	this.items().splice(i, 1); // remove the item
 	this.revenueScope.$emit(this.revenueType+'-removed', model);
 };
@@ -93,7 +95,7 @@ Revenue.prototype.remove = function(model) {
  * @return - the entire revenue collection
  */
 Revenue.prototype.items = function() {
-	return this.storage;
+	return this.localStorage[this.revenueType];
 };
 
 /**
@@ -102,14 +104,14 @@ Revenue.prototype.items = function() {
  */
 Revenue.prototype.total = function() {
 	var total = 0;
-	for (var i = 0; i < this.storage.length; i++) {
-		total += parseFloat(this.storage[i].amount);
+	for (var i = 0; i < this.localStorage[this.revenueType].length; i++) {
+		total += parseFloat(this.localStorage[this.revenueType][i].amount);
 	}
 	return total;
 }
 
 Revenue.prototype.edit = function(model) {
-	var i = this.storage.indexOf(model);
+	var i = this.localStorage[this.revenueType].indexOf(model);
 }
 
 /**
