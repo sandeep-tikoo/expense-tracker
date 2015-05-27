@@ -83,8 +83,8 @@ Revenue.prototype.add = function(model) {
  * @param model - A revenue Model
  */
 Revenue.prototype.remove = function(model) {
-	var i = storage.indexOf(model);
-	this.items.splice(i, 1); // remove the item
+	var i = this.storage.indexOf(model);
+	this.items().splice(i, 1); // remove the item
 	this.revenueScope.$emit(this.revenueType+'-removed', model);
 };
 
