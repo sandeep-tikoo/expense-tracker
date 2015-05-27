@@ -43,7 +43,7 @@ appControllers.controller('HandleCtrl', [function() {
 
 appControllers.controller('OutputCtrl', 
 	['$scope', 'summaryService', 'expenseService', 'incomeService', 
-	function($scope,summaryService, expenseService, incomeService) {
+	function($scope, summaryService, expenseService, incomeService) {
 
 	var vm = this;
 	var summaryHandler = summaryService.on('totals-updated', updateTotals);
@@ -62,7 +62,7 @@ appControllers.controller('OutputCtrl',
   }
 
   vm.editIncome = function(income) {
-		var inst = $.remodal.lookup[$('[data-remodal-id=expenseModal]').data('remodal')];
+		var inst = $.remodal.lookup[$('[data-remodal-id=incomeModal]').data('remodal')];
 		inst.open();
 	};
 

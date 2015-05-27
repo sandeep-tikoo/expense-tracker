@@ -26,8 +26,8 @@
 		</div>
 		<div></div>
 	</header>
-	
-	<form ng-controller="ExpenseCtrl as ctrl" data-remodal-id="expenseModal" id="expenseForm" name="expenseForm" class="remodal pure-form pure-form-aligned" novalidate ng-submit="ctrl.addExpense(ctrl.expense)">
+
+	<div ng-controller="ExpenseCtrl as ctrl" data-remodal-id="expenseModal" id="expenseForm" name="expenseForm" class="remodal pure-form pure-form-aligned" ng-form novalidate>
 		<fieldset>
 			<div class="top">
 				<div class="pure-control-group">
@@ -52,13 +52,13 @@
 			</div>
 			<div class="bottom">
 				<div class="pure-control-group">
-					<button type="submit" class="pull-right pure-button button-secondary" ng-disabled="expenseForm.$invalid">Submit</button>
+					<button type="submit" class="pull-right pure-button button-secondary" ng-disabled="expenseForm.$invalid" ng-click="ctrl.addExpense(ctrl.expense)">Submit</button>
 				</div>
 			</div>
 		</fieldset>
-	</form>
+	</div>
 
-	<form ng-controller="IncomeCtrl as ctrl" data-remodal-id="incomeModal" id="incomeForm" name="incomeForm" class="remodal pure-form pure-form-aligned" novalidate ng-submit="ctrl.addIncome(ctrl.income)">
+	<div ng-controller="IncomeCtrl as ctrl" data-remodal-id="incomeModal" id="incomeForm" name="incomeForm" class="remodal pure-form pure-form-aligned" ng-form novalidate>
 		<fieldset>
 			<div class="top">
 				<div class="pure-control-group">
@@ -83,11 +83,11 @@
 			</div>
 			<div class="bottom">
 				<div class="pure-control-group">
-					<button type="submit" class="pull-right pure-button button-secondary" ng-disabled="incomeForm.$invalid">Submit</button>
+					<button type="submit" class="pull-right pure-button button-secondary" ng-disabled="incomeForm.$invalid"  ng-click="ctrl.addIncome(ctrl.income)">Submit</button>
 				</div>
 			</div>
 		</fieldset>
-	</form>
+	</div>
 
 
 

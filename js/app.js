@@ -117,6 +117,9 @@ Revenue.prototype.total = function() {
 
 Revenue.prototype.edit = function(model) {
 	var i = this.localStorage[this.revenueType].indexOf(model);
+	this.localStorage[this.revenueType][i].name = model.name;
+	this.localStorage[this.revenueType][i].amount = model.amount;
+	this.localStorage[this.revenueType][i].frequency = model.frequency;
 }
 
 /**
