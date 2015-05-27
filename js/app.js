@@ -77,6 +77,7 @@ Revenue.prototype.model = function() {
  * @param model - A revenue Model
  */
 Revenue.prototype.add = function(model) {
+	model.id = this.localStorage[this.revenueType].length;
 	this.localStorage[this.revenueType].push(model);
 	this.revenueScope.$emit(this.revenueType+'-added', model);
 };
