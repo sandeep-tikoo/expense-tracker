@@ -1,0 +1,40 @@
+<div ng-controller="RevenueCtrl as ctrl" class="pure-form">
+	<fieldset>
+		<div class="top">
+			<div class="pure-control-group">
+				<label for="revenueInput">Name of {{ctrl.revenue.type}}:</label>
+				<input type="text" name="revenueInput" id="picker" ng-model="ctrl.revenue.name" required ng-minlength="1">
+			</div>
+			<div class="pure-control-group">
+				<label for="revenueAmount">Amount:</label>
+				<input type="number" name="revenueAmount" ng-model="ctrl.revenue.amount" required ng-minlength="1">
+			</div>
+			<div class="pure-control-group">
+				<label for="revenueFrequency">Frequency:</label>
+				<select name="revenueFrequency" ng-model="ctrl.revenue.frequency" required>
+					<option value="once">Once Off</option>
+					<option value="weekly">Weekly</option>
+					<option value="fortnightly">Fortnightly</option>
+					<option value="monthly">Monthly</option>
+					<option value="quarterly">Quarterly</option>
+					<option value="yearly">Yearly</option>
+				</select>
+			</div>
+			<div class="pure-control-group" ng-show="ctrl.revenue.frequency != 'once'">
+				<label for="revenueStart">Start Date:</label>
+				<input type="text" name="revenueStart" class="pickadate" ng-model="ctrl.revenue.startFormatted" ng-change="ctrl.formatStartDate(ctrl.revenue)">
+			</div>
+		</div>
+		<div class="bottom">
+			<div class="pure-control-group">
+				<button class="pull-right pure-button button-secondary" ng-disabled="incomeForm.$invalid"  ng-click="ctrl.addRevenue(ctrl.revenue)">Submit</button>
+			</div>
+		</div>
+	</fieldset>
+</div>
+
+<script>
+	// Initialise the date picker
+	// @TODO: This is terrible place to bind. But leaving here for now as it other things have priority
+	$('.pickadate').pickadate();
+</script>

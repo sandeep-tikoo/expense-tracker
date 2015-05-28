@@ -61,6 +61,16 @@ ul.inline {
 .cell {
 	display: table-cell;
 }
+a {
+	text-decoration: none;
+}
+.fa {
+	color: #AAA;
+	text-decoration: none;
+	&:hover {
+		color: #000;
+	}
+}
 
 header {
 	margin-left: -15px;
@@ -76,6 +86,11 @@ header {
 		margin: 0;
 		text-transform: uppercase;
 	  	vertical-align: middle;
+
+	  	a {
+	  		color: #FFF;
+	  		text-decoration: none;
+	  	}
 	}
 
 	ul {

@@ -1,0 +1,35 @@
+<div ng-controller="OverviewCtrl as ctrl">
+	<div class="output">
+		<ul class="expenseOutput">
+			<h2>Expenses<a href="/#/revenue/new/expense"><span class="pull-right"><i class="fa fa-plus"></i></span></a></h2>
+			<li ng-show="ctrl.expenses.length === 0">No expenses added yet!</li>
+			<li ng-repeat="expense in ctrl.expenses" class="expense">
+				<span class="pull-right remove">
+					<a href="/#/revenue/edit/{{expense.id}}">
+						<i class="fa fa-pencil"></i>
+					</a>
+					<span ng-click="ctrl.removeExpense(expense)">
+						<i class="fa fa-times"></i>
+					</span>
+				</span>
+				{{expense.name}}<em class="pull-right deduction">-{{expense.amount | currency }}</em>
+			</li>
+		</ul>
+		<ul class="incomeOutput">
+			<h2>Income<a href="/#/revenue/new/income" target="_self"><span class="pull-right"><i class="fa fa-plus"></i></span></a></h2>
+			<li ng-show="ctrl.income.length === 0">No income added yet!</li>
+			<li ng-repeat="income in ctrl.income" class="expense">
+				<span class="pull-right remove">
+					<a href="/#/revenue/edit/{{income.id}}">
+						<i class="fa fa-pencil"></i>
+					</a>
+					<span ng-click="ctrl.removeIncome(income)">
+						<i class="fa fa-times"></i>
+					</span>
+				</span>
+				{{income.name}}<em class="pull-right addition">+{{income.amount | currency }}</em>
+			</li>
+		</ul>
+		
+	</div>
+</div>

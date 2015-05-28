@@ -1,40 +1,51 @@
-var appControllers = angular.module('appControllers', []);
-
-appControllers.controller('ExpenseCtrl',['expenseService', function(expenseService) {
+app.controller('RevenueCtrl',[
+	'$scope', '$routeParams', '$location', 'expenseService', 'incomeService', 'REVENUE_TYPE',
+	function($scope, $routeParams, $location, expenseService, incomeService, REVENUE_TYPE) {
 	var vm = this;
-	
-	vm.expense = expenseService.model();
-	// Add a tempary date format field to hold the date picker
-	// date string in
-	vm.expense.startFormatted = '';
-	vm.formatStartDate = function(expense) {
-		vm.expense.start = moment(expense.startFormatted, 'DD, MMM YYYY').unix()
+	var revenueService = null;
+	vm.revenue = null;
+
+	// Select the appropriate revenue service for this actions
+	if($routeParams.action == 'new') {
+		if($routeParams.typeOrId == REVENUE_TYPE.INCOME) {
+			revenueService = incomeService;
+		} else if($routeParams.typeOrId == REVENUE_TYPE.EXPENSE) {
+			revenueService = expenseService;
+		}
+		vm.revenue = revenueService.model();
+
+	// action == edit (check to be implemented..)
+	} else {
+		// query both the expense and income service for the provided id.
+		// from this we can also tell what revenue type has been queried
+		vm.revenue = expenseService.get($routeParams.typeOrId);
+		revenueService = expenseService;
+		if(!vm.revenue) { // expense not found, try income
+			vm.revenue = incomeService.get($routeParams.typeOrId);
+			revenueService = incomeService;
+		}
+
+		if(!vm.revenue) {
+			// @TODO: Implement error handling for non-found ids.
+		}
 	}
-	vm.addExpense = function(expense) {
-		expenseService.add(expense);
-		vm.expense = expenseService.model();
+
+	vm.formatStartDate = function(revenue) {
+		vm.revenue.start = moment(revenue.startFormatted, 'DD, MMM YYYY').unix()
+	}
+	vm.addRevenue = function(revenue) {
+		// Due to Angular's data binding, we dont actually
+		// have to manually save existing revenues.
+		if(revenue.id === undefined) {
+			revenueService.add(revenue);
+		}
+		vm.revenue = revenueService.model();
+		$location.path('/');
 	};
 
 }]);
 
-appControllers.controller('IncomeCtrl',['incomeService', function(incomeService) {
-	var vm = this;
-	
-	vm.income = incomeService.model();
-	// Add a tempary date format field to hold the date picker
-	// date string in
-	vm.income.startFormatted = '';
-	vm.formatStartDate = function(income) {
-		vm.income.start = moment(income.startFormatted, 'DD, MMM YYYY').unix()
-	}
-	vm.addIncome = function(income) {
-		incomeService.add(income);
-		vm.income = incomeService.model();
-	};
-
-}]);
-
-appControllers.controller('OutputCtrl', 
+app.controller('OverviewCtrl', 
 	['$scope', 'summaryService', 'expenseService', 'incomeService', 
 	function($scope, summaryService, expenseService, incomeService) {
 
@@ -44,30 +55,18 @@ appControllers.controller('OutputCtrl',
   function updateTotals(evt, totals) {
 
   	vm.income = totals.income;
-  	console.log(vm.income);
   	vm.expenses = totals.expenses;
-		vm.totalExpenses = totals.totalExpenses;
-		vm.netIncome = totals.netIncome;
-		vm.grossIncome = totals.grossIncome;
+	vm.totalExpenses = totals.totalExpenses;
+	vm.netIncome = totals.netIncome;
+	vm.grossIncome = totals.grossIncome;
   }	
 
   vm.removeIncome = function(income) {
   	incomeService.remove(income);
   }
-
-  vm.editIncome = function(income) {
-		var inst = $.remodal.lookup[$('[data-remodal-id=incomeModal]').data('remodal')];
-		inst.open();
-	};
-
   vm.removeExpense = function(expense) {
   	expenseService.remove(expense);
   }
-
-	vm.editExpense = function(expense) {
-		var inst = $.remodal.lookup[$('[data-remodal-id=expenseModal]').data('remodal')];
-		inst.open();
-	};
 
 	$scope.$on('$destroy', function() {
 		summaryHandler();
