@@ -193,15 +193,6 @@ input {
 	color: #880202;
 }
 
-// TEMP OVERRIDE OF REMODAL..
-// as the > 641px break (e.g. modal overlay)
-//  does not work with the datepicker.
-.remodal {
-	max-width: 100% !important;
-	min-height: 100% !important;
-	margin: 0 !important;
-}
-
 /* Mobile first queries */
 
 /* Larger than mobile */
