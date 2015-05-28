@@ -19,3 +19,4 @@ Credit where credit is due:
 * [Remodal](https://github.com/VodkaBears/Remodal)
 * [ngStorage](https://github.com/gsklee/ngStorage)
 * [pickadate.js](https://github.com/amsul/pickadate.js)
+* [moment.js](https://github.com/moment/moment/)

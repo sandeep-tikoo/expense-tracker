@@ -53,7 +53,7 @@
 				</div>
 				<div class="pure-control-group" ng-show="ctrl.expense.frequency != 'once'">
 					<label for="expenseStart">Start:</label>
-					<input type="text" name="expenseStart" class="pickadate" ng-model="ctrl.income.start">
+					<input type="text" name="expenseStart" class="pickadate" ng-model="ctrl.expense.startFormatted" ng-change="ctrl.formatStartDate(ctrl.expense)">
 				</div>
 			</div>
 			<div class="bottom">
@@ -88,7 +88,7 @@
 				</div>
 				<div class="pure-control-group" ng-show="ctrl.income.frequency != 'once'">
 					<label for="incomeStart">Start Date:</label>
-					<input type="text" name="incomeStart" class="pickadate" ng-model="ctrl.income.start">
+					<input type="text" name="incomeStart" class="pickadate" ng-model="ctrl.income.startFormatted" ng-change="ctrl.formatStartDate(ctrl.income)">
 				</div>
 			</div>
 			<div class="bottom">
@@ -141,6 +141,7 @@
 	<script type="text/javascript" src="js/ngStorage.min.js"></script>
 	<script type="text/javascript" src="js/pickadate.js"></script>
 	<script type="text/javascript" src="js/pickadate.date.js"></script>
+	<script type="text/javascript" src="js/moment.min.js"></script>
 	<script type="text/javascript" src="js/app.js"></script>
 	<script type="text/javascript" src="js/controllers.js"></script>
 </body>
