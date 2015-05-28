@@ -66,7 +66,7 @@ function Revenue($rootScope, $localStorage, FREQUENCY, revenueType) {
 Revenue.prototype.model = function() {
 	return {
 		type: this.revenueType,
-		id: 0,
+		id: null,
 		name: "",
 		amount: "",
 		frequency: this.FREQUENCY.ONCE,

@@ -36,7 +36,7 @@ app.controller('RevenueCtrl',[
 	vm.addRevenue = function(revenue) {
 		// Due to Angular's data binding, we dont actually
 		// have to manually save existing revenues.
-		if(revenue.id === undefined) {
+		if(revenue.id == null) {
 			revenueService.add(revenue);
 		}
 		vm.revenue = revenueService.model();
