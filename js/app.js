@@ -68,7 +68,8 @@ Revenue.prototype.model = function() {
 		id: 0,
 		name: "",
 		amount: "",
-		frequency: this.FREQUENCY.ONCE
+		frequency: this.FREQUENCY.ONCE,
+		start: ""
 	}
 }
 
@@ -142,3 +143,10 @@ app.factory('expenseService', ['$injector', 'REVENUE_TYPE', function ($injector,
 app.factory('incomeService', ['$injector', 'REVENUE_TYPE', function ($injector, REVENUE_TYPE) {
 		return $injector.instantiate(Revenue,{ revenueType: REVENUE_TYPE.INCOME });
 }]);
+
+
+
+// Initialise the date picker
+$(window).load(function() {
+	$('.pickadate').pickadate();
+});

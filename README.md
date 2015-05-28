@@ -16,5 +16,6 @@ This project was started as a learning experience for me to get familiar with An
 Credit where credit is due:
 * [Angular.js](http://angularjs.org/)
 * [Pure](http://purecss.io/)
-* [Remodal](https://github.com/VodkaBears/Remodal) 
+* [Remodal](https://github.com/VodkaBears/Remodal)
 * [ngStorage](https://github.com/gsklee/ngStorage)
+* [pickadate.js](https://github.com/amsul/pickadate.js)
