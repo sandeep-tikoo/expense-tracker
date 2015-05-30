@@ -71,7 +71,8 @@ Revenue.prototype.model = function() {
 		amount: "",
 		frequency: this.FREQUENCY.ONCE,
 		start: "",
-		startFormatted: ""
+		startFormatted: "",
+		date: null
 	}
 }
 
@@ -81,6 +82,7 @@ Revenue.prototype.model = function() {
  */
 Revenue.prototype.add = function(model) {
 	model.id = this.localStorage['revenue'].length;
+	model.date = $.now();
 	if (parseFloat(model.amount) <= 0) {
 		model.amount = parseFloat(model.amount) * -1;
 	}
@@ -180,6 +182,10 @@ app.config([
       when('/revenue/:action/:typeOrId', {
         templateUrl: '_partials/revenue_detail.html',
         controller: 'RevenueCtrl',
+      }).
+      when('/:type', {
+      	templateUrl: '_partials/revenue_expanded.html',
+      	controller: 'DetailCtrl'
       }).
       otherwise({
         redirectTo: '/'

@@ -75,3 +75,21 @@ app.controller('OverviewCtrl',
 	summaryService.updateTotals();
 
 }]);
+
+app.controller('DetailCtrl', 
+	['expenseService', 'incomeService', '$routeParams', 'REVENUE_TYPE', '$location', 'summaryService', 
+	function(expenseService, incomeService, $routeParams, REVENUE_TYPE, $location, summaryService) {
+
+	var vm = this;
+	var revenueService = null;
+
+	if ($routeParams.type == REVENUE_TYPE.EXPENSE) {
+		revenueService = expenseService;
+		vm.revenue = expenseService.items();
+	} else if($routeParams.type == REVENUE_TYPE.INCOME) {
+		revenueService = incomeService;
+		vm.revenue = incomeService.items();
+	} else {
+		$location.path('/');
+	}
+}]);

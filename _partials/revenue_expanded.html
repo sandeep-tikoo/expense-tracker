@@ -1,0 +1,22 @@
+<div ng-controller="DetailCtrl as ctrl">
+	<div class="output">
+		<ul class="expenseOutput">
+			<h2>{{ctrl.revenue[0].type}}</h2>
+			<li ng-repeat="revenue in ctrl.revenue" class="expense">
+				<span class="pull-right remove">
+					<a href="#/revenue/edit/{{revenue.id}}">
+						<i class="fa fa-pencil btn-icon"></i>
+					</a>
+					<span ng-click="ctrl.removeExpense(revenue)">
+						<i class="fa fa-times btn-icon"></i>
+					</span>
+				</span>
+
+				<div class="revenue-item">
+					<em class="pull-right deduction revenue-value">-{{revenue.amount | currency }}</em>
+					<h3>{{revenue.name}} <span ng-show="expense.frequency != 'once'" class="frequency"><i class="fa fa-repeat"></i> {{revenue.frequency}}</span></h3>
+				</div>
+			</li>
+		</ul>
+	</div>
+</div>
