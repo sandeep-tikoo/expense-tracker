@@ -141,6 +141,7 @@ input {
       border-left: 1px solid #EFEFEF;
       border-right: 1px solid #EFEFEF; }
     .output ul li {
+      overflow: auto;
       font-size: 0.9em; }
   .output .revenue-item .frequency {
     margin-left: 10px;

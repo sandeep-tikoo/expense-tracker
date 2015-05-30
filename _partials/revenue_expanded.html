@@ -1,7 +1,8 @@
 <div ng-controller="DetailCtrl as ctrl">
 	<div class="output">
 		<ul class="expenseOutput">
-			<h2>{{ctrl.revenue[0].type}}</h2>
+			<h2>{{ctrl.revenueName}}</h2>
+			<li ng-show="ctrl.revenue.length === 0">Nothing added yet!</li>
 			<li ng-repeat="revenue in ctrl.revenue" class="expense">
 				<span class="pull-right remove">
 					<a href="#/revenue/edit/{{revenue.id}}">
@@ -14,7 +15,8 @@
 
 				<div class="revenue-item">
 					<em class="pull-right deduction revenue-value">-{{revenue.amount | currency }}</em>
-					<h3>{{revenue.name}} <span ng-show="expense.frequency != 'once'" class="frequency"><i class="fa fa-repeat"></i> {{revenue.frequency}}</span></h3>
+					<h3>{{revenue.name}} <span ng-show="expense.frequency != 'once'" class="frequency"><i class="fa fa-repeat"></i> {{revenue.frequency}} </span></h3>
+					<span class="pull-right">{{revenue.date | date}}</span>
 				</div>
 			</li>
 		</ul>

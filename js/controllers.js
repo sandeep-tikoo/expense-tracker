@@ -82,14 +82,18 @@ app.controller('DetailCtrl',
 
 	var vm = this;
 	var revenueService = null;
+	vm.revenue = null;
+	vm.revenueName = $routeParams.type;
 
 	if ($routeParams.type == REVENUE_TYPE.EXPENSE) {
 		revenueService = expenseService;
-		vm.revenue = expenseService.items();
+		vm.revenue = revenueService.items();
 	} else if($routeParams.type == REVENUE_TYPE.INCOME) {
 		revenueService = incomeService;
-		vm.revenue = incomeService.items();
+		vm.revenue = revenueService.items();
 	} else {
 		$location.path('/');
 	}
+
+
 }]);

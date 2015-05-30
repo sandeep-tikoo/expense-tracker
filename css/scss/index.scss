@@ -164,6 +164,7 @@ input {
 
 		
 		li {
+			overflow: auto;
 			font-size: 0.9em;
 			&:nth-child(odd) {
 				@extend .color-primary-1;
