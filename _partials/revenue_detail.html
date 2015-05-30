@@ -1,4 +1,4 @@
-<div ng-controller="RevenueCtrl as ctrl" class="pure-form pure-form-aligned revenue-form">
+<div ng-controller="RevenueCtrl as ctrl" name="revenueForm" class="pure-form pure-form-aligned revenue-form" ng-form novalidate>
 	<fieldset>
 		<div class="top">
 			<div class="pure-control-group">
@@ -22,13 +22,13 @@
 			</div>
 			<div class="pure-control-group" ng-show="ctrl.revenue.frequency != 'once'">
 				<label for="revenueStart">Start Date:</label>
-				<input type="text" name="revenueStart" class="pickadate" ng-model="ctrl.revenue.startFormatted" ng-change="ctrl.formatStartDate(ctrl.revenue)">
+				<input type="text" name="revenueStart" class="pickadate" ng-model="ctrl.revenue.startFormatted" ng-change="ctrl.formatStartDate(ctrl.revenue)" ng-required="ctrl.revenue.frequency != 'once'">
 			</div>
 		</div>
 		<div class="bottom">
 			<div class="pure-control-group pull-right">
 				<a class="pure-button" href="#/">Back</a>
-				<button class="pure-button button-secondary" ng-disabled="incomeForm.$invalid"  ng-click="ctrl.addRevenue(ctrl.revenue)">Submit</button>
+				<button class="pure-button button-secondary" ng-disabled="revenueForm.$invalid"  ng-click="ctrl.addRevenue(ctrl.revenue)">Submit</button>
 			</div>
 		</div>
 	</fieldset>
