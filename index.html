@@ -13,21 +13,27 @@
 	<link rel="stylesheet" type="text/css" href="css/pickadate.date.css">
 </head>
 <body ng-app="expenses">
-	<header class="clearfix table" ng-controller="OverviewCtrl as output">
+	<header class="clearfix table row" ng-controller="OverviewCtrl as output">
 		<div class="cell left">
 			<h1><a href="#/">Expense Tracker</a></h1>
 
 		</div>
 		<div class="cell right">
 			<ul class="inline totals pull-right">
-				<li>Gross&nbsp;<em class="pull-right addition gross">{{output.grossIncome | currency}}</em></li>
-				<li>Expenses&nbsp;<em class="pull-right deduction">{{output.totalExpenses | currency}}</em></li>
+				<li>In&nbsp;<em class="pull-right addition gross">{{output.grossIncome | currency}}</em></li>
+				<li>Out&nbsp;<em class="pull-right deduction">{{output.totalExpenses | currency}}</em></li>
 				<li>Net&nbsp;<em class="pull-right net" ng-class="{addition: output.netIncome >= 0, deduction: output.netIncome < 0}">{{output.netIncome | currency}}</em></li>
 			</ul>
 
 		</div>
 		<div></div>
 	</header>
+	<nav class="row">
+		<ul class="menu tabs pure-g">
+			<li class="tab pure-u-1-2"><a href='#/'><i class="fa fa-home"></i></a></li>
+			<li class="tab pure-u-1-2"><a href='#/schedule'><i class="fa fa-repeat"></i></a></li>
+		</ul>
+	</nav>
 	<div ng-view></div>
 
 

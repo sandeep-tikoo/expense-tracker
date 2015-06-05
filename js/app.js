@@ -179,6 +179,10 @@ app.config([
         templateUrl: '_partials/overview.html',
         controller: 'OverviewCtrl',
       }).
+      when('/schedule', {
+      	templateUrl: '_partials/schedule.html',
+      	controller: 'ScheduleCtrl'
+      }).
       when('/revenue/:action/:typeOrId', {
         templateUrl: '_partials/revenue_detail.html',
         controller: 'RevenueCtrl',
